@@ -1,2 +1,32 @@
-vendor/
-composer.lock
+*.sqlite
+*.clover
+*.cache
+*.gitignore.*
+
+# composer
+/vendor/
+/composer.lock
+
+# phpunit, phpstan
+.phpunit.result.cache
+phpstan.neon
+.phpunit.cache/test-results
+
+# infection
+Dev/infection_logs/
+
+# coverage, tests & others
+build/
+*.phar
+Dev/large.votes
+test.php
+*.temp
+
+# IDE
+*.idea
+*.code-workspace
+.vscode
+
+# Sys
+.DS_Store
+completion.sh
