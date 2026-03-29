@@ -33,7 +33,7 @@ class PersianCalendar implements CalendarInterface
      *
      * @var int[]
      */
-    private static $LEAP_YEAR_CYCLE = [
+    private const array LEAP_YEAR_CYCLE = [
         0, 5, 9, 13, 17, 21, 25, 29, 34, 38, 42, 46, 50, 54, 58, 62, 67, 71, 75, 79, 83, 87, 91, 95, 100, 104, 108, 112, 116, 120, 124,
     ];
 
@@ -74,7 +74,7 @@ class PersianCalendar implements CalendarInterface
      */
     public function isLeapYear(int $year): bool
     {
-        return \in_array((($year + 2346) % 2820) % 128, self::$LEAP_YEAR_CYCLE, true);
+        return \in_array((($year + 2346) % 2820) % 128, self::LEAP_YEAR_CYCLE, true);
     }
 
     /**
