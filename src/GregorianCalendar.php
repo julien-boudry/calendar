@@ -27,20 +27,16 @@ class GregorianCalendar extends JulianCalendar implements CalendarInterface
 {
     /**
      * The escape sequence used to indicate this calendar in GEDCOM files.
-     *
-     * @return string
      */
-    public function gedcomCalendarEscape()
+    public function gedcomCalendarEscape(): string
     {
         return '@#DGREGORIAN@';
     }
 
     /**
-     * @param int $year
-     *
      * @return bool
      */
-    public function isLeapYear($year)
+    public function isLeapYear(int $year): bool
     {
         if ($year < 0) {
             $year++;
@@ -52,11 +48,9 @@ class GregorianCalendar extends JulianCalendar implements CalendarInterface
     /**
      * Convert a Julian day number into a year/month/day.
      *
-     * @param int $julian_day
-     *
      * @return int[]
      */
-    public function jdToYmd($julian_day)
+    public function jdToYmd(int $julian_day): array
     {
         $a = $julian_day + 32044;
         $b = (int) ((4 * $a + 3) / 146097);
@@ -78,14 +72,8 @@ class GregorianCalendar extends JulianCalendar implements CalendarInterface
 
     /**
      * Convert a year/month/day into a Julian day number
-     *
-     * @param int $year
-     * @param int $month
-     * @param int $day
-     *
-     * @return int
      */
-    public function ymdToJd($year, $month, $day)
+    public function ymdToJd(int $year, int $month, int $day): int
     {
         if ($month < 1 || $month > $this->monthsInYear()) {
             throw new InvalidArgumentException('Month ' . $month . ' is invalid for this calendar');
@@ -106,12 +94,8 @@ class GregorianCalendar extends JulianCalendar implements CalendarInterface
      * Get the number of days after March 21 that easter falls, for a given year.
      *
      * Uses the algorithm found in PHP’s ext/calendar/easter.c
-     *
-     * @param int $year
-     *
-     * @return int
      */
-    public function easterDays($year)
+    public function easterDays(int $year): int
     {
         // The “golden” number
         $golden = $year % 19 + 1;

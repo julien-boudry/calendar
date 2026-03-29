@@ -51,7 +51,7 @@ if (!defined('CAL_GREGORIAN')) {
      * @param int $month
      * @param int $year
      *
-     * @return int|bool
+     * @return int
      */
 
     function cal_days_in_month($calendar_id, $month, $year)
@@ -63,7 +63,7 @@ if (!defined('CAL_GREGORIAN')) {
      * @param int $julian_day
      * @param int $calendar_id
      *
-     * @return array|bool
+     * @return array
      */
     function cal_from_jd($julian_day, $calendar_id)
     {
@@ -73,7 +73,7 @@ if (!defined('CAL_GREGORIAN')) {
     /**
      * @param int $calendar_id
      *
-     * @return array|bool
+     * @return array
      */
     function cal_info($calendar_id = -1)
     {
@@ -86,7 +86,7 @@ if (!defined('CAL_GREGORIAN')) {
      * @param int $day
      * @param int $year
      *
-     * @return int|bool
+     * @return int
      */
     function cal_to_jd($calendar_id, $month, $day, $year)
     {
@@ -96,7 +96,7 @@ if (!defined('CAL_GREGORIAN')) {
     /**
      * @param int|null $year
      *
-     * @return int|bool
+     * @return int
      */
     function easter_date($year = null)
     {
@@ -185,7 +185,7 @@ if (!defined('CAL_GREGORIAN')) {
      * @param bool $hebrew
      * @param int $flags
      *
-     * @return string|bool
+     * @return string
      */
     function jdtojewish($julian_day, $hebrew = false, $flags = 0)
     {
@@ -205,7 +205,7 @@ if (!defined('CAL_GREGORIAN')) {
     /**
      * @param int $julian_day
      *
-     * @return int|false
+     * @return int
      */
     function jdtounix($julian_day)
     {
@@ -239,7 +239,7 @@ if (!defined('CAL_GREGORIAN')) {
     /**
      * @param int|null $timestamp
      *
-     * @return false|int
+     * @return int
      */
     function unixtojd($timestamp = null)
     {

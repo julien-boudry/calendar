@@ -38,13 +38,8 @@ class PersianCalendar implements CalendarInterface
 
     /**
      * Determine the number of days in a specified month, allowing for leap years, etc.
-     *
-     * @param int $year
-     * @param int $month
-     *
-     * @return int
      */
-    public function daysInMonth($year, $month)
+    public function daysInMonth(int $year, int $month): int
     {
         if ($month <= 6) {
             return 31;
@@ -59,52 +54,40 @@ class PersianCalendar implements CalendarInterface
 
     /**
      * Determine the number of days in a week.
-     *
-     * @return int
      */
-    public function daysInWeek()
+    public function daysInWeek(): int
     {
         return 7;
     }
 
     /**
      * The escape sequence used to indicate this calendar in GEDCOM files.
-     *
-     * @return string
      */
-    public function gedcomCalendarEscape()
+    public function gedcomCalendarEscape(): string
     {
         return '@#DJALALI@';
     }
 
     /**
      * Determine whether or not a given year is a leap-year.
-     *
-     * @param int $year
-     *
-     * @return bool
      */
-    public function isLeapYear($year)
+    public function isLeapYear(int $year): bool
     {
         return in_array((($year + 2346) % 2820) % 128, self::$LEAP_YEAR_CYCLE);
     }
 
     /**
      * What is the highest Julian day number that can be converted into this calendar.
-     *
-     * @return int
      */
-    public function jdEnd()
+    public function jdEnd(): int
     {
         return PHP_INT_MAX;
     }
 
     /**
      * What is the lowest Julian day number that can be converted into this calendar.
-     *
-     * @return int
      */
-    public function jdStart()
+    public function jdStart(): int
     {
         return 1948321; // 1 Farvardīn 0001 AP, 19 MAR 0622 AD
     }
@@ -112,11 +95,9 @@ class PersianCalendar implements CalendarInterface
     /**
      * Convert a Julian day number into a year/month/day.
      *
-     * @param int $julian_day
-     *
      * @return int[]
      */
-    public function jdToYmd($julian_day)
+    public function jdToYmd(int $julian_day): array
     {
         $depoch = $julian_day - 2121446; // 1 Farvardīn 475
         $cycle  = (int) floor($depoch / 1029983);
@@ -141,26 +122,16 @@ class PersianCalendar implements CalendarInterface
     /**
      * Determine the number of months in a year (if given),
      * or the maximum number of months in any year.
-     *
-     * @param int|null $year
-     *
-     * @return int
      */
-    public function monthsInYear($year = null)
+    public function monthsInYear(?int $year = null): int
     {
         return 12;
     }
 
     /**
      * Convert a year/month/day to a Julian day number.
-     *
-     * @param int $year
-     * @param int $month
-     * @param int $day
-     *
-     * @return int
      */
-    public function ymdToJd($year, $month, $day)
+    public function ymdToJd(int $year, int $month, int $day): int
     {
         if ($month < 1 || $month > $this->monthsInYear()) {
             throw new InvalidArgumentException('Month ' . $month . ' is invalid for this calendar');
@@ -182,13 +153,8 @@ class PersianCalendar implements CalendarInterface
      * The PHP modulus function returns a negative modulus for a negative dividend.
      * This algorithm requires a "traditional" modulus function where the modulus is
      * always positive.
-     *
-     * @param int $dividend
-     * @param int $divisor
-     *
-     * @return int
      */
-    public function mod($dividend, $divisor)
+    public function mod(int $dividend, int $divisor): int
     {
         if ($divisor === 0) {
             return 0;

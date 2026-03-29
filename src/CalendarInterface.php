@@ -4,8 +4,6 @@
  * Interface CalendarInterface - each calendar implementation needs to provide
  * these methods.
  *
- * Many of them are actually provided by the AbstractCalendar base class.
- *
  * @author    Greg Roach <greg@subaqua.co.uk>
  * @copyright (c) 2014-2021 Greg Roach
  * @license   This program is free software: you can redistribute it and/or modify
@@ -28,78 +26,49 @@ interface CalendarInterface
 {
     /**
      * Determine the number of days in a specified month, allowing for leap years, etc.
-     *
-     * @param int $year
-     * @param int $month
-     *
-     * @return int
      */
-    public function daysInMonth($year, $month);
+    public function daysInMonth(int $year, int $month): int;
 
     /**
      * Determine the number of days in a week.
-     *
-     * @return int
      */
-    public function daysInWeek();
+    public function daysInWeek(): int;
 
     /**
      * The escape sequence used to indicate this calendar in GEDCOM files.
-     *
-     * @return string
      */
-    public function gedcomCalendarEscape();
+    public function gedcomCalendarEscape(): string;
 
     /**
      * Determine whether or not a given year is a leap-year.
-     *
-     * @param int $year
-     *
-     * @return bool
      */
-    public function isLeapYear($year);
+    public function isLeapYear(int $year): bool;
 
     /**
      * What is the highest Julian day number that can be converted into this calendar.
-     *
-     * @return int
      */
-    public function jdEnd();
+    public function jdEnd(): int;
 
     /**
      * What is the lowest Julian day number that can be converted into this calendar.
-     *
-     * @return int
      */
-    public function jdStart();
+    public function jdStart(): int;
 
     /**
      * Convert a Julian day number into a year/month/day.
      *
-     * @param int $julian_day
-     *
      * @return int[]
      */
-    public function jdToYmd($julian_day);
+    public function jdToYmd(int $julian_day): array;
 
     /**
      * Determine the number of months in a year (if given),
      * or the maximum number of months in any year.
-     *
-     * @param int|null $year
-     *
-     * @return int
      */
-    public function monthsInYear($year = null);
+    public function monthsInYear(?int $year = null): int;
 
     /**
      * Convert a year/month/day to a Julian day number.
-     *
-     * @param int $year
-     * @param int $month
-     * @param int $day
-     *
-     * @return int
      */
-    public function ymdToJd($year, $month, $day);
+    public function ymdToJd(int $year, int $month, int $day): int;
 }

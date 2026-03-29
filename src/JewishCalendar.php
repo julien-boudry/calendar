@@ -164,13 +164,8 @@ class JewishCalendar implements CalendarInterface
 
     /**
      * Determine the number of days in a specified month, allowing for leap years, etc.
-     *
-     * @param int $year
-     * @param int $month
-     *
-     * @return int
      */
-    public function daysInMonth($year, $month)
+    public function daysInMonth(int $year, int $month): int
     {
         if ($year < 1) {
             throw new InvalidArgumentException('Year ' . $year . ' is invalid for this calendar');
@@ -197,64 +192,48 @@ class JewishCalendar implements CalendarInterface
 
     /**
      * Determine the number of days in a week.
-     *
-     * @return int
      */
-    public function daysInWeek()
+    public function daysInWeek(): int
     {
         return 7;
     }
 
     /**
      * The escape sequence used to indicate this calendar in GEDCOM files.
-     *
-     * @return string
      */
-    public function gedcomCalendarEscape()
+    public function gedcomCalendarEscape(): string
     {
         return '@#DHEBREW@';
     }
 
     /**
      * Determine whether or not a given year is a leap-year.
-     *
-     * @param int $year
-     *
-     * @return bool
      */
-    public function isLeapYear($year)
+    public function isLeapYear(int $year): bool
     {
         return (7 * $year + 1) % 19 < 7;
     }
 
     /**
      * What is the highest Julian day number that can be converted into this calendar.
-     *
-     * @return int
      */
-    public function jdEnd()
+    public function jdEnd(): int
     {
         return PHP_INT_MAX;
     }
 
     /**
      * What is the lowest Julian day number that can be converted into this calendar.
-     *
-     * @return int
      */
-    public function jdStart()
+    public function jdStart(): int
     {
         return 347998; // 1 Tishri 0001 AM
     }
 
     /**
      * Convert a Julian day number into a year.
-     *
-     * @param int $julian_day
-     *
-     * @return int
      */
-    protected function jdToY($julian_day)
+    protected function jdToY(int $julian_day): int
     {
         // Estimate the year, and underestimate it, it will be refined after
         $year = max((int) ((($julian_day - 347998) * 98496) / 35975351) - 1, 1);
@@ -270,11 +249,9 @@ class JewishCalendar implements CalendarInterface
     /**
      * Convert a Julian day number into a year/month/day.
      *
-     * @param int $julian_day
-     *
      * @return int[]
      */
-    public function jdToYmd($julian_day)
+    public function jdToYmd(int $julian_day): array
     {
         // Find the year, by adding one month at a time to use up the remaining days.
         $year  = $this->jdToY($julian_day);
@@ -292,12 +269,8 @@ class JewishCalendar implements CalendarInterface
     /**
      * Determine the number of months in a year (if given),
      * or the maximum number of months in any year.
-     *
-     * @param int|null $year
-     *
-     * @return int
      */
-    public function monthsInYear($year = null)
+    public function monthsInYear(?int $year = null): int
     {
         if ($year !== null && !$this->isLeapYear($year)) {
             return 12;
@@ -308,12 +281,8 @@ class JewishCalendar implements CalendarInterface
 
     /**
      * Calculate the Julian Day number of the first day in a year.
-     *
-     * @param int $year
-     *
-     * @return int
      */
-    protected function yToJd($year)
+    protected function yToJd(int $year): int
     {
         $div19 = (int) (($year - 1) / 19);
         $mod19 = ($year - 1) % 19;
@@ -338,14 +307,8 @@ class JewishCalendar implements CalendarInterface
 
     /**
      * Convert a year/month/day to a Julian day number.
-     *
-     * @param int $year
-     * @param int $month
-     * @param int $day
-     *
-     * @return int
      */
-    public function ymdToJd($year, $month, $day)
+    public function ymdToJd(int $year, int $month, int $day): int
     {
         return
             $this->yToJd($year) +
@@ -356,11 +319,9 @@ class JewishCalendar implements CalendarInterface
     /**
      * Determine whether a year is normal, defective or complete.
      *
-     * @param int $year
-     *
      * @return int defective (-1), normal (0) or complete (1)
      */
-    private function yearType($year)
+    private function yearType(int $year): int
     {
         $year_length = $this->yToJd($year + 1) - $this->yToJd($year);
 
@@ -377,12 +338,8 @@ class JewishCalendar implements CalendarInterface
 
     /**
      * Calculate the number of days in Heshvan.
-     *
-     * @param int $year
-     *
-     * @return int
      */
-    private function daysInMonthHeshvan($year)
+    private function daysInMonthHeshvan(int $year): int
     {
         if ($this->yearType($year) === self::COMPLETE_YEAR) {
             return 30;
@@ -393,12 +350,8 @@ class JewishCalendar implements CalendarInterface
 
     /**
      * Calculate the number of days in Kislev.
-     *
-     * @param int $year
-     *
-     * @return int
      */
-    private function daysInMonthKislev($year)
+    private function daysInMonthKislev(int $year): int
     {
         if ($this->yearType($year) === self::DEFECTIVE_YEAR) {
             return 29;
@@ -409,12 +362,8 @@ class JewishCalendar implements CalendarInterface
 
     /**
      * Calculate the number of days in Adar I.
-     *
-     * @param int $year
-     *
-     * @return int
      */
-    private function daysInMonthAdarI($year)
+    private function daysInMonthAdarI(int $year): int
     {
         if ($this->isLeapYear($year)) {
             return 30;
@@ -428,11 +377,9 @@ class JewishCalendar implements CalendarInterface
      *
      * @link https://bugs.php.net/bug.php?id=54254
      *
-     * @param int $year
-     *
      * @return string[]
      */
-    protected function hebrewMonthNames($year)
+    protected function hebrewMonthNames(int $year): array
     {
         $leap_year = $this->isLeapYear($year);
 
@@ -455,13 +402,8 @@ class JewishCalendar implements CalendarInterface
 
     /**
      * The Hebrew name of a given month.
-     *
-     * @param int $year
-     * @param int $month
-     *
-     * @return string
      */
-    protected function hebrewMonthName($year, $month)
+    protected function hebrewMonthName(int $year, int $month): string
     {
         $months = $this->hebrewMonthNames($year);
 
@@ -472,12 +414,8 @@ class JewishCalendar implements CalendarInterface
      * Add geresh (׳) and gershayim (״) punctuation to numeric values.
      *
      * Gereshayim is a contraction of “geresh” and “gershayim”.
-     *
-     * @param string $hebrew
-     *
-     * @return string
      */
-    protected function addGereshayim($hebrew)
+    protected function addGereshayim(string $hebrew): string
     {
         switch (strlen($hebrew)) {
             case 0:
@@ -495,12 +433,9 @@ class JewishCalendar implements CalendarInterface
     /**
      * Convert a number into a string, in the style of roman numerals
      *
-     * @param int      $number
      * @param string[] $numerals
-     *
-     * @return string
      */
-    private function numberToNumerals($number, array $numerals)
+    private function numberToNumerals(int $number, array $numerals): string
     {
         $string = '';
 
@@ -519,13 +454,8 @@ class JewishCalendar implements CalendarInterface
 
     /**
      * Convert a number into Hebrew numerals using UTF8.
-     *
-     * @param int  $number
-     * @param bool $show_thousands
-     *
-     * @return string
      */
-    public function numberToHebrewNumerals($number, $show_thousands)
+    public function numberToHebrewNumerals(int $number, bool $show_thousands): string
     {
         // Years (e.g. "5782") may be written without the thousands (e.g. just "782"),
         // but since there is no zero, the number 5000 must be written as "5 thousand"
@@ -562,13 +492,8 @@ class JewishCalendar implements CalendarInterface
 
     /**
      * Convert a number into Hebrew numerals using ISO8859-8.
-     *
-     * @param int  $number
-     * @param bool $gereshayim Add punctuation to numeric values
-     *
-     * @return string
      */
-    protected function numberToHebrewNumeralsIso8859($number, $gereshayim)
+    protected function numberToHebrewNumeralsIso8859(int $number, bool $gereshayim): string
     {
         $hebrew = $this->numberToNumerals($number, self::$HEBREW_NUMERALS_ISO8859_8);
 
@@ -582,15 +507,8 @@ class JewishCalendar implements CalendarInterface
 
     /**
      * Format a year using Hebrew numerals.
-     *
-     * @param int  $year
-     * @param bool $alafim_geresh Add a geresh  (׳) after thousands
-     * @param bool $alafim        Add the word for thousands after the thousands
-     * @param bool $gereshayim    Add geresh (׳) and gershayim (״) punctuation to numeric values
-     *
-     * @return string
      */
-    protected function yearToHebrewNumerals($year, $alafim_geresh, $alafim, $gereshayim)
+    protected function yearToHebrewNumerals(int $year, bool $alafim_geresh, bool $alafim, bool $gereshayim): string
     {
         if ($year < 1000) {
             return $this->numberToHebrewNumeralsIso8859($year, $gereshayim);
@@ -609,15 +527,8 @@ class JewishCalendar implements CalendarInterface
 
     /**
      * Convert a Julian Day number into a Hebrew date.
-     *
-     * @param int  $julian_day
-     * @param bool $alafim_garesh
-     * @param bool $alafim
-     * @param bool $gereshayim
-     *
-     * @return string
      */
-    public function jdToHebrew($julian_day, $alafim_garesh, $alafim, $gereshayim)
+    public function jdToHebrew(int $julian_day, bool $alafim_garesh, bool $alafim, bool $gereshayim): string
     {
         list($year, $month, $day) = $this->jdToYmd($julian_day);
 

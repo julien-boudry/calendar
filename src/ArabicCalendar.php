@@ -27,13 +27,8 @@ class ArabicCalendar implements CalendarInterface
 {
     /**
      * Determine the number of days in a specified month, allowing for leap years, etc.
-     *
-     * @param int $year
-     * @param int $month
-     *
-     * @return int
      */
-    public function daysInMonth($year, $month)
+    public function daysInMonth(int $year, int $month): int
     {
         if ($month === 2) {
             return 28;
@@ -48,52 +43,40 @@ class ArabicCalendar implements CalendarInterface
 
     /**
      * Determine the number of days in a week.
-     *
-     * @return int
      */
-    public function daysInWeek()
+    public function daysInWeek(): int
     {
         return 7;
     }
 
     /**
      * The escape sequence used to indicate this calendar in GEDCOM files.
-     *
-     * @return string
      */
-    public function gedcomCalendarEscape()
+    public function gedcomCalendarEscape(): string
     {
         return '@#DHIJRI@';
     }
 
     /**
      * Determine whether or not a given year is a leap-year.
-     *
-     * @param int $year
-     *
-     * @return bool
      */
-    public function isLeapYear($year)
+    public function isLeapYear(int $year): bool
     {
         return ((11 * $year + 14) % 30) < 11;
     }
 
     /**
      * What is the highest Julian day number that can be converted into this calendar.
-     *
-     * @return int
      */
-    public function jdEnd()
+    public function jdEnd(): int
     {
         return PHP_INT_MAX;
     }
 
     /**
      * What is the lowest Julian day number that can be converted into this calendar.
-     *
-     * @return int
      */
-    public function jdStart()
+    public function jdStart(): int
     {
         return 1948440; // 1 Muharram 1 AH, 16 July 622 AD
     }
@@ -101,11 +84,9 @@ class ArabicCalendar implements CalendarInterface
     /**
      * Convert a Julian day number into a year/month/day.
      *
-     * @param int $julian_day
-     *
      * @return int[]
      */
-    public function jdToYmd($julian_day)
+    public function jdToYmd(int $julian_day): array
     {
         $year  = (int) ((30 * ($julian_day - 1948440) + 10646) / 10631);
         $month = (int) ((11 * ($julian_day - $year * 354 - (int) ((3 + 11 * $year) / 30) - 1948086) + 330) / 325);
@@ -117,26 +98,16 @@ class ArabicCalendar implements CalendarInterface
     /**
      * Determine the number of months in a year (if given),
      * or the maximum number of months in any year.
-     *
-     * @param int|null $year
-     *
-     * @return int
      */
-    public function monthsInYear($year = null)
+    public function monthsInYear(?int $year = null): int
     {
         return 12;
     }
 
     /**
      * Convert a year/month/day to a Julian day number.
-     *
-     * @param int $year
-     * @param int $month
-     * @param int $day
-     *
-     * @return int
      */
-    public function ymdToJd($year, $month, $day)
+    public function ymdToJd(int $year, int $month, int $day): int
     {
         if ($month < 1 || $month > $this->monthsInYear()) {
             throw new InvalidArgumentException('Month ' . $month . ' is invalid for this calendar');

@@ -1323,19 +1323,11 @@ class ShimTest extends TestCase
     #[\PHPUnit\Framework\Attributes\WithoutErrorHandler]
     public function testJdToJewishHebrewOutOfRangeLow1()
     {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new \ErrorException($errstr, 0, $errno);
-        });
+        $this->expectException('ValueError');
+        $this->expectExceptionMessage('Year out of range (0-9999)');
 
-        try {
-            $julian_day = JewishToJd(1, 1, 1) - 1;
-            Shim::jdToJewish($julian_day, true, 0);
-            $this->fail('Expected error was not triggered');
-        } catch (\ErrorException $e) {
-            $this->assertStringContainsString('Year out of range (0-9999)', $e->getMessage());
-        } finally {
-            restore_error_handler();
-        }
+        $julian_day = JewishToJd(1, 1, 1) - 1;
+        Shim::jdToJewish($julian_day, true, 0);
     }
 
     /**
@@ -1366,18 +1358,10 @@ class ShimTest extends TestCase
     #[\PHPUnit\Framework\Attributes\WithoutErrorHandler]
     public function testJdToJewishHebrewOutOfRangeHigh1()
     {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new \ErrorException($errstr, 0, $errno);
-        });
+        $this->expectException('ValueError');
+        $this->expectExceptionMessage('Year out of range (0-9999)');
 
-        try {
-            Shim::jdToJewish(4000076, true, 0);
-            $this->fail('Expected error was not triggered');
-        } catch (\ErrorException $e) {
-            $this->assertStringContainsString('Year out of range (0-9999)', $e->getMessage());
-        } finally {
-            restore_error_handler();
-        }
+        Shim::jdToJewish(4000076, true, 0);
     }
 
     /**
