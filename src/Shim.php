@@ -37,49 +37,41 @@ class Shim
 
     private static JulianCalendar $julian_calendar;
 
-    /**
-     * English names for the days of the week.
-     *
-     * @var string[]
-     */
-    private static $DAY_NAMES = [
+    /** @var list<string> English names for the days of the week. */
+    private const array DAY_NAMES = [
         'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
     ];
 
-    /**
-     * Abbreviated English names for the days of the week.
-     *
-     * @var string[]
-     */
-    private static $DAY_NAMES_SHORT = [
+    /** @var list<string> Abbreviated English names for the days of the week. */
+    private const array DAY_NAMES_SHORT = [
         'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
     ];
 
-    /** @var string[] Names of the months of the Gregorian/Julian calendars */
-    private static $MONTH_NAMES = [
+    /** @var list<string> Names of the months of the Gregorian/Julian calendars */
+    private const array MONTH_NAMES = [
         '', 'January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December',
     ];
 
-    /** @var string[] Abbreviated names of the months of the Gregorian/Julian calendars */
-    private static $MONTH_NAMES_SHORT = [
+    /** @var list<string> Abbreviated names of the months of the Gregorian/Julian calendars */
+    private const array MONTH_NAMES_SHORT = [
         '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
     ];
 
-    /** @var string[] Name of the months of the French calendar */
-    private static $MONTH_NAMES_FRENCH = [
+    /** @var list<string> Names of the months of the French calendar */
+    private const array MONTH_NAMES_FRENCH = [
         '', 'Vendemiaire', 'Brumaire', 'Frimaire', 'Nivose', 'Pluviose', 'Ventose',
         'Germinal', 'Floreal', 'Prairial', 'Messidor', 'Thermidor', 'Fructidor', 'Extra',
     ];
 
-    /** @var string[] Names of the months of the Jewish calendar in a non-leap year */
-    private static $MONTH_NAMES_JEWISH = [
+    /** @var list<string> Names of the months of the Jewish calendar in a non-leap year */
+    private const array MONTH_NAMES_JEWISH = [
         '', 'Tishri', 'Heshvan', 'Kislev', 'Tevet', 'Shevat', 'Adar',
         'Adar', 'Nisan', 'Iyyar', 'Sivan', 'Tammuz', 'Av', 'Elul',
     ];
 
-    /** @var string[] Names of the months of the Jewish calendar in a leap year */
-    private static $MONTH_NAMES_JEWISH_LEAP_YEAR = [
+    /** @var list<string> Names of the months of the Jewish calendar in a leap year */
+    private const array MONTH_NAMES_JEWISH_LEAP_YEAR = [
         '', 'Tishri', 'Heshvan', 'Kislev', 'Tevet', 'Shevat', 'Adar I',
         'Adar II', 'Nisan', 'Iyyar', 'Sivan', 'Tammuz', 'Av', 'Elul',
     ];
@@ -152,10 +144,10 @@ class Shim
     {
         switch ($calendar_id) {
             case \CAL_FRENCH:
-                return self::calFromJdCalendar($julian_day, self::jdToFrench($julian_day), self::$MONTH_NAMES_FRENCH, self::$MONTH_NAMES_FRENCH);
+                return self::calFromJdCalendar($julian_day, self::jdToFrench($julian_day), self::MONTH_NAMES_FRENCH, self::MONTH_NAMES_FRENCH);
 
             case \CAL_GREGORIAN:
-                return self::calFromJdCalendar($julian_day, self::jdToGregorian($julian_day), self::$MONTH_NAMES, self::$MONTH_NAMES_SHORT);
+                return self::calFromJdCalendar($julian_day, self::jdToGregorian($julian_day), self::MONTH_NAMES, self::MONTH_NAMES_SHORT);
 
             case \CAL_JEWISH:
                 $months = self::jdMonthNameJewishMonths($julian_day);
@@ -171,7 +163,7 @@ class Shim
                 return $cal;
 
             case \CAL_JULIAN:
-                return self::calFromJdCalendar($julian_day, self::jdToJulian($julian_day), self::$MONTH_NAMES, self::$MONTH_NAMES_SHORT);
+                return self::calFromJdCalendar($julian_day, self::jdToJulian($julian_day), self::MONTH_NAMES, self::MONTH_NAMES_SHORT);
 
             default:
                 throw new ValueError('cal_from_jd(): Argument #2 ($calendar) must be a valid calendar ID');
@@ -215,10 +207,10 @@ class Shim
     public static function calInfo(int $calendar_id): array
     {
         return match ($calendar_id) {
-            \CAL_FRENCH => self::calInfoCalendar(self::$MONTH_NAMES_FRENCH, self::$MONTH_NAMES_FRENCH, 30, 'French', 'CAL_FRENCH'),
-            \CAL_GREGORIAN => self::calInfoCalendar(self::$MONTH_NAMES, self::$MONTH_NAMES_SHORT, 31, 'Gregorian', 'CAL_GREGORIAN'),
-            \CAL_JEWISH => self::calInfoCalendar(self::$MONTH_NAMES_JEWISH_LEAP_YEAR, self::$MONTH_NAMES_JEWISH_LEAP_YEAR, 30, 'Jewish', 'CAL_JEWISH'),
-            \CAL_JULIAN => self::calInfoCalendar(self::$MONTH_NAMES, self::$MONTH_NAMES_SHORT, 31, 'Julian', 'CAL_JULIAN'),
+            \CAL_FRENCH => self::calInfoCalendar(self::MONTH_NAMES_FRENCH, self::MONTH_NAMES_FRENCH, 30, 'French', 'CAL_FRENCH'),
+            \CAL_GREGORIAN => self::calInfoCalendar(self::MONTH_NAMES, self::MONTH_NAMES_SHORT, 31, 'Gregorian', 'CAL_GREGORIAN'),
+            \CAL_JEWISH => self::calInfoCalendar(self::MONTH_NAMES_JEWISH_LEAP_YEAR, self::MONTH_NAMES_JEWISH_LEAP_YEAR, 30, 'Jewish', 'CAL_JEWISH'),
+            \CAL_JULIAN => self::calInfoCalendar(self::MONTH_NAMES, self::MONTH_NAMES_SHORT, 31, 'Julian', 'CAL_JULIAN'),
             -1 => [
                 \CAL_GREGORIAN => self::calInfo(\CAL_GREGORIAN),
                 \CAL_JULIAN    => self::calInfo(\CAL_JULIAN),
@@ -359,8 +351,8 @@ class Shim
         }
 
         return match ($mode) {
-            1 => self::$DAY_NAMES[$day_of_week],
-            2 => self::$DAY_NAMES_SHORT[$day_of_week],
+            1 => self::DAY_NAMES[$day_of_week],
+            2 => self::DAY_NAMES_SHORT[$day_of_week],
             // CAL_DOW_DAYNO or anything else
             default => $day_of_week,
         };
@@ -376,12 +368,12 @@ class Shim
     public static function jdMonthName(int $julian_day, int $mode): string
     {
         return match ($mode) {
-            \CAL_MONTH_GREGORIAN_LONG => self::jdMonthNameCalendar(self::$gregorian_calendar, $julian_day, self::$MONTH_NAMES),
-            \CAL_MONTH_JULIAN_LONG => self::jdMonthNameCalendar(self::$julian_calendar, $julian_day, self::$MONTH_NAMES),
-            \CAL_MONTH_JULIAN_SHORT => self::jdMonthNameCalendar(self::$julian_calendar, $julian_day, self::$MONTH_NAMES_SHORT),
+            \CAL_MONTH_GREGORIAN_LONG => self::jdMonthNameCalendar(self::$gregorian_calendar, $julian_day, self::MONTH_NAMES),
+            \CAL_MONTH_JULIAN_LONG => self::jdMonthNameCalendar(self::$julian_calendar, $julian_day, self::MONTH_NAMES),
+            \CAL_MONTH_JULIAN_SHORT => self::jdMonthNameCalendar(self::$julian_calendar, $julian_day, self::MONTH_NAMES_SHORT),
             \CAL_MONTH_JEWISH => self::jdMonthNameCalendar(self::$jewish_calendar, $julian_day, self::jdMonthNameJewishMonths($julian_day)),
-            \CAL_MONTH_FRENCH => self::jdMonthNameCalendar(self::$french_calendar, $julian_day, self::$MONTH_NAMES_FRENCH),
-            default => self::jdMonthNameCalendar(self::$gregorian_calendar, $julian_day, self::$MONTH_NAMES_SHORT),
+            \CAL_MONTH_FRENCH => self::jdMonthNameCalendar(self::$french_calendar, $julian_day, self::MONTH_NAMES_FRENCH),
+            default => self::jdMonthNameCalendar(self::$gregorian_calendar, $julian_day, self::MONTH_NAMES_SHORT),
         };
     }
 
@@ -408,10 +400,10 @@ class Shim
         [, , $year] = explode('/', self::jdToCalendar(self::$jewish_calendar, $julian_day, 347998, 324542846));
 
         if (self::$jewish_calendar->isLeapYear((int) $year)) {
-            return self::$MONTH_NAMES_JEWISH_LEAP_YEAR;
+            return self::MONTH_NAMES_JEWISH_LEAP_YEAR;
         }
 
-        return self::$MONTH_NAMES_JEWISH;
+        return self::MONTH_NAMES_JEWISH;
     }
 
     /**
