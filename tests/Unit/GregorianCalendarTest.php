@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
-use \CondorcetPHP\PhpCalendars\GregorianCalendar;
-use \CondorcetPHP\PhpCalendars\Shim;
+use CondorcetPHP\PhpCalendars\{GregorianCalendar, Shim};
+
 /**
  * Create the shim functions, so we can run tests on servers which do
  * not have the ext/calendar library installed.  For example HHVM.
  */
-beforeEach(function () {
+beforeEach(function (): void {
     Shim::create();
 });
-test('constants', function () {
+test('constants', function (): void {
     $calendar = new GregorianCalendar;
 
     expect($calendar->gedcomCalendarEscape())->toBe('@#DGREGORIAN@');
@@ -17,7 +17,7 @@ test('constants', function () {
     expect($calendar->daysInWeek())->toBe(7);
     expect($calendar->monthsInYear())->toBe(12);
 });
-test('is leap year', function () {
+test('is leap year', function (): void {
     $gregorian = new GregorianCalendar;
 
     expect(true)->toBe($gregorian->isLeapYear(-5));
@@ -40,21 +40,21 @@ test('is leap year', function () {
     expect(false)->toBe($gregorian->isLeapYear(2100));
     expect(false)->toBe($gregorian->isLeapYear(2200));
 });
-test('easter days coverage', function () {
+test('easter days coverage', function (): void {
     $gregorian = new GregorianCalendar;
 
     foreach ([2037, 2035, 2030, 1981, 1894, 1875] as $year) {
         expect(easter_days($year, \CAL_EASTER_ALWAYS_GREGORIAN))->toBe($gregorian->easterDays($year));
     }
 });
-test('easter days modern times', function () {
+test('easter days modern times', function (): void {
     $gregorian = new GregorianCalendar;
 
     for ($year = 1970; $year <= 2037; ++$year) {
         expect(easter_days($year, \CAL_EASTER_ALWAYS_GREGORIAN))->toBe($gregorian->easterDays($year));
     }
 });
-test('days in month', function () {
+test('days in month', function (): void {
     $gregorian = new GregorianCalendar;
 
     foreach ([-5, -4, -1, 1, 1500, 1600, 1700, 1800, 1900, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2100, 2200] as $year) {
@@ -63,7 +63,7 @@ test('days in month', function () {
         }
     }
 });
-test('ymd to jd days', function () {
+test('ymd to jd days', function (): void {
     $gregorian = new GregorianCalendar;
 
     foreach ([2012, 2014] as $year) {
@@ -76,7 +76,7 @@ test('ymd to jd days', function () {
         }
     }
 });
-test('ymd to jd months', function () {
+test('ymd to jd months', function (): void {
     $gregorian = new GregorianCalendar;
 
     foreach ([2012, 2014] as $year) {
@@ -89,7 +89,7 @@ test('ymd to jd months', function () {
         }
     }
 });
-test('ymd to jd years', function () {
+test('ymd to jd years', function (): void {
     $gregorian = new GregorianCalendar;
 
     for ($year = 1970; $year <= 2037; ++$year) {
@@ -100,7 +100,7 @@ test('ymd to jd years', function () {
         expect(jdtogregorian($julian_day))->toBe($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0]);
     }
 });
-test('ymd to jd years bc', function () {
+test('ymd to jd years bc', function (): void {
     $gregorian = new GregorianCalendar;
 
     for ($year = -5; $year <= 5; ++$year) {
@@ -119,7 +119,7 @@ test('ymd to jd years bc', function () {
         }
     }
 });
-test('jd to ymd reciprocity', function () {
+test('jd to ymd reciprocity', function (): void {
     $calendar = new GregorianCalendar;
 
     for ($jd = $calendar->jdStart(); $jd < min(2457755, $calendar->jdEnd()); $jd += 79) {
@@ -127,7 +127,7 @@ test('jd to ymd reciprocity', function () {
         expect($calendar->ymdToJd($y, $m, $d))->toBe($jd);
     }
 });
-test('ymd to jd invalid month', function () {
+test('ymd to jd invalid month', function (): void {
     $this->expectExceptionMessage('Month 14 is invalid for this calendar');
     $this->expectException('InvalidArgumentException');
 

@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
-use \CondorcetPHP\PhpCalendars\ArabicCalendar;
-use \CondorcetPHP\PhpCalendars\Shim;
+use CondorcetPHP\PhpCalendars\{ArabicCalendar, Shim};
+
 /**
  * Create the shim functions, so we can run tests on servers which do
  * not have the ext/calendar library installed.  For example HHVM.
  */
-beforeEach(function () {
+beforeEach(function (): void {
     Shim::create();
 });
-test('constants', function () {
+test('constants', function (): void {
     $calendar = new ArabicCalendar;
 
     expect($calendar->gedcomCalendarEscape())->toBe('@#DHIJRI@');
@@ -17,7 +17,7 @@ test('constants', function () {
     expect($calendar->daysInWeek())->toBe(7);
     expect($calendar->monthsInYear())->toBe(12);
 });
-test('is leap year', function () {
+test('is leap year', function (): void {
     $arabic = new ArabicCalendar;
 
     expect(false)->toBe($arabic->isLeapYear(1201));
@@ -51,7 +51,7 @@ test('is leap year', function () {
     expect(true)->toBe($arabic->isLeapYear(1229));
     expect(false)->toBe($arabic->isLeapYear(1230));
 });
-test('days in month', function () {
+test('days in month', function (): void {
     $arabic = new ArabicCalendar;
 
     expect(30)->toBe($arabic->daysInMonth(1201, 1));
@@ -79,7 +79,7 @@ test('days in month', function () {
     expect(30)->toBe($arabic->daysInMonth(1202, 11));
     expect(30)->toBe($arabic->daysInMonth(1202, 12));
 });
-test('ymd tojd', function () {
+test('ymd tojd', function (): void {
     $arabic = new ArabicCalendar;
 
     expect(1948440)->toBe($arabic->ymdToJd(1, 1, 1));
@@ -134,7 +134,7 @@ test('ymd tojd', function () {
     expect(2374388)->toBe($arabic->ymdToJd(1202, 12, 30));
     expect([1202, 12, 30])->toBe($arabic->jdToYmd(2374388));
 });
-test('jd to ymd reciprocity', function () {
+test('jd to ymd reciprocity', function (): void {
     $calendar = new ArabicCalendar;
 
     for ($jd = $calendar->jdStart(); $jd < min(2457755, $calendar->jdEnd()); $jd += 79) {
@@ -142,7 +142,7 @@ test('jd to ymd reciprocity', function () {
         expect($calendar->ymdToJd($y, $m, $d))->toBe($jd);
     }
 });
-test('ymd to jd invalid month', function () {
+test('ymd to jd invalid month', function (): void {
     $this->expectExceptionMessage('Month 14 is invalid for this calendar');
     $this->expectException('InvalidArgumentException');
 

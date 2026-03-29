@@ -1,25 +1,25 @@
 <?php declare(strict_types=1);
-use \CondorcetPHP\PhpCalendars\JewishCalendar;
-use \CondorcetPHP\PhpCalendars\Shim;
+use CondorcetPHP\PhpCalendars\{JewishCalendar, Shim};
+
 /**
  * Make sure we emulate the correct version of ext/calendar.
  */
-beforeEach(function () {
+beforeEach(function (): void {
     Shim::create();
     $this->jewish = new JewishCalendar;
 });
-test('constants', function () {
+test('constants', function (): void {
     expect($this->jewish->gedcomCalendarEscape())->toBe('@#DHEBREW@');
     expect($this->jewish->jdStart())->toBe(347998);
     expect($this->jewish->jdEnd())->toBe(\PHP_INT_MAX);
     expect($this->jewish->daysInWeek())->toBe(7);
 });
-test('months in year', function () {
+test('months in year', function (): void {
     expect($this->jewish->monthsInYear())->toBe(13);
     expect($this->jewish->monthsInYear(5767))->toBe(12);
     expect($this->jewish->monthsInYear(5768))->toBe(13);
 });
-test('is leap year', function () {
+test('is leap year', function (): void {
     expect(false)->toBe($this->jewish->isLeapYear(5767));
     expect(true)->toBe($this->jewish->isLeapYear(5768));
     expect(false)->toBe($this->jewish->isLeapYear(5769));
@@ -40,14 +40,14 @@ test('is leap year', function () {
     expect(true)->toBe($this->jewish->isLeapYear(5784));
     expect(false)->toBe($this->jewish->isLeapYear(5785));
 });
-test('days in month', function () {
+test('days in month', function (): void {
     for ($year = 5730; $year <= 5798; ++$year) {
         for ($month = 1; $month <= 13; ++$month) {
             expect(cal_days_in_month(\CAL_JEWISH, $month, $year))->toBe($this->jewish->daysInMonth($year, $month));
         }
     }
 });
-test('ymd to jd days', function () {
+test('ymd to jd days', function (): void {
     foreach ([5776, 5777] as $year) {
         for ($day = 1; $day <= 30; ++$day) {
             $julian_day = jewishtojd(8, $day, $year);
@@ -58,7 +58,7 @@ test('ymd to jd days', function () {
         }
     }
 });
-test('ymd to jd months', function () {
+test('ymd to jd months', function (): void {
     for ($month = 1; $month <= 13; ++$month) {
         $julian_day = jewishtojd($month, 27, 5776);
         $ymd = $this->jewish->jdToYmd($julian_day);
@@ -73,7 +73,7 @@ test('ymd to jd months', function () {
         expect(jdtojewish($julian_day))->toBe($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0]);
     }
 });
-test('ymd to jd years', function () {
+test('ymd to jd years', function (): void {
     for ($year = 5730; $year <= 5798; ++$year) {
         $julian_day = jewishtojd(8, 9, $year);
         $ymd = $this->jewish->jdToYmd($julian_day);
@@ -82,7 +82,7 @@ test('ymd to jd years', function () {
         expect(jdtojewish($julian_day))->toBe($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0]);
     }
 });
-test('ymd to jd years historic', function () {
+test('ymd to jd years historic', function (): void {
     for ($year = 100; $year <= 200; ++$year) {
         $julian_day = jewishtojd(1, 1, $year);
         $ymd = $this->jewish->jdToYmd($julian_day);
@@ -97,7 +97,7 @@ test('ymd to jd years historic', function () {
         expect(jdtojewish($julian_day))->toBe($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0]);
     }
 });
-test('jd to hebrew year', function () {
+test('jd to hebrew year', function (): void {
     $years = [
         1, 15, 16, 17, 234, 987,
         4010, 4020, 4030, 4040, 4050, 4060, 4070, 4080, 4090,
@@ -118,7 +118,7 @@ test('jd to hebrew year', function () {
         }
     }
 });
-test('jd to hebrew day', function () {
+test('jd to hebrew day', function (): void {
     foreach ([4, 15, 16, 27] as $day) {
         $julian_day = jewishtojd(8, $day, 5776);
         foreach ([0, \CAL_JEWISH_ADD_ALAFIM_GERESH] as $alafim_geresh) {
@@ -130,7 +130,7 @@ test('jd to hebrew day', function () {
         }
     }
 });
-test('jd to hebrew month', function () {
+test('jd to hebrew month', function (): void {
     foreach ([5776, 5777] as $year) {
         for ($month = 1; $month <= 13; ++$month) {
             $julian_day = jewishtojd($month, 23, $year);
@@ -144,7 +144,7 @@ test('jd to hebrew month', function () {
         }
     }
 });
-test('jd to ymd reciprocity', function () {
+test('jd to ymd reciprocity', function (): void {
     $calendar = new JewishCalendar;
 
     for ($jd = $calendar->jdStart(); $jd < min(2457755, $calendar->jdEnd()); $jd += 79) {
@@ -152,7 +152,7 @@ test('jd to ymd reciprocity', function () {
         expect($calendar->ymdToJd($y, $m, $d))->toBe($jd);
     }
 });
-test('number to hebrew numerals short', function () {
+test('number to hebrew numerals short', function (): void {
     $calendar = new JewishCalendar;
     expect($calendar->numberToHebrewNumerals(1, false))->toBe('א׳');
     expect($calendar->numberToHebrewNumerals(2, false))->toBe('ב׳');
@@ -893,7 +893,7 @@ test('number to hebrew numerals short', function () {
     expect($calendar->numberToHebrewNumerals(9998, false))->toBe('תתקצ״ח');
     expect($calendar->numberToHebrewNumerals(9999, false))->toBe('תתקצ״ט');
 });
-test('number to hebrew numerals long', function () {
+test('number to hebrew numerals long', function (): void {
     $calendar = new JewishCalendar;
     expect($calendar->numberToHebrewNumerals(1, true))->toBe('א׳');
     expect($calendar->numberToHebrewNumerals(2, true))->toBe('ב׳');

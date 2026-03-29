@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
-use \CondorcetPHP\PhpCalendars\FrenchCalendar;
-use \CondorcetPHP\PhpCalendars\Shim;
+use CondorcetPHP\PhpCalendars\{FrenchCalendar, Shim};
+
 /**
  * Create the shim functions, so we can run tests on servers which do
  * not have the ext/calendar library installed.  For example HHVM.
  */
-beforeEach(function () {
+beforeEach(function (): void {
     Shim::create();
 });
-test('constants', function () {
+test('constants', function (): void {
     $calendar = new FrenchCalendar;
 
     expect($calendar->gedcomCalendarEscape())->toBe('@#DFRENCH R@');
@@ -17,7 +17,7 @@ test('constants', function () {
     expect($calendar->daysInWeek())->toBe(10);
     expect($calendar->monthsInYear())->toBe(13);
 });
-test('is leap year', function () {
+test('is leap year', function (): void {
     $french = new FrenchCalendar;
 
     expect(false)->toBe($french->isLeapYear(1));
@@ -35,7 +35,7 @@ test('is leap year', function () {
     expect(false)->toBe($french->isLeapYear(13));
     expect(false)->toBe($french->isLeapYear(14));
 });
-test('days in month', function () {
+test('days in month', function (): void {
     $french = new FrenchCalendar;
 
     // Cannot test year 14 against PHP, due to PHP bug 67976.
@@ -45,7 +45,7 @@ test('days in month', function () {
         }
     }
 });
-test('ymd tojd', function () {
+test('ymd tojd', function (): void {
     $french = new FrenchCalendar;
 
     expect(2375840)->toBe($french->ymdToJd(1, 1, 1));
@@ -54,7 +54,7 @@ test('ymd tojd', function () {
     expect([1, 1, 1])->toBe($french->jdToYmd(2375840));
     expect([14, 13, 5])->toBe($french->jdToYmd(2380952));
 });
-test('ymd to jd days', function () {
+test('ymd to jd days', function (): void {
     $french = new FrenchCalendar;
 
     foreach ([3, 4] as $year) {
@@ -67,7 +67,7 @@ test('ymd to jd days', function () {
         }
     }
 });
-test('ymd to jd months', function () {
+test('ymd to jd months', function (): void {
     $french = new FrenchCalendar;
 
     for ($month = 1; $month <= 12; ++$month) {
@@ -84,7 +84,7 @@ test('ymd to jd months', function () {
         expect(jdtofrench($julian_day))->toBe($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0]);
     }
 });
-test('ymd to jd years', function () {
+test('ymd to jd years', function (): void {
     $french = new FrenchCalendar;
 
     for ($year = 1; $year <= 14; ++$year) {
@@ -95,7 +95,7 @@ test('ymd to jd years', function () {
         expect(jdtofrench($julian_day))->toBe($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0]);
     }
 });
-test('jd to ymd reciprocity', function () {
+test('jd to ymd reciprocity', function (): void {
     $calendar = new FrenchCalendar;
 
     for ($jd = $calendar->jdStart(); $jd < min(2457755, $calendar->jdEnd()); $jd++) {
@@ -103,7 +103,7 @@ test('jd to ymd reciprocity', function () {
         expect($calendar->ymdToJd($y, $m, $d))->toBe($jd);
     }
 });
-test('ymd to jd invalid month', function () {
+test('ymd to jd invalid month', function (): void {
     $this->expectExceptionMessage('Month 14 is invalid for this calendar');
     $this->expectException('InvalidArgumentException');
 
