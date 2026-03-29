@@ -3,17 +3,10 @@ PHP Calendars
 
 Pure PHP implementation of six historical and religious calendars, with an object-oriented API and a drop-in replacement for PHP's `ext/calendar` extension.
 
+This package provides a pure PHP implementation of the [Arabic (Hijri)](https://en.wikipedia.org/wiki/Islamic_calendar), [French Republican](https://en.wikipedia.org/wiki/French_Republican_Calendar), [Gregorian](https://en.wikipedia.org/wiki/Gregorian_calendar), [Julian](https://en.wikipedia.org/wiki/Julian_calendar), [Jewish](https://en.wikipedia.org/wiki/Hebrew_calendar) and [Persian (Jalali)](https://en.wikipedia.org/wiki/Iranian_calendars) calendars, plus a drop-in replacement for PHP‘s [ext/calendar](https://php.net/calendar) extension.
+
 > [!NOTE]
 > This project is a fork of [fisharebest/ext-calendar](https://github.com/fisharebest/ext-calendar), originally written by Greg Roach for the [webtrees](http://www.webtrees.net) project. It modernises the codebase (PHP 8.5+, strict types, native type declarations) and continues development under the `CondorcetPHP` namespace.
-
-This package provides a pure PHP implementation of the
-[Arabic (Hijri)](https://en.wikipedia.org/wiki/Islamic_calendar),
-[French Republican](https://en.wikipedia.org/wiki/French_Republican_Calendar),
-[Gregorian](https://en.wikipedia.org/wiki/Gregorian_calendar),
-[Julian](https://en.wikipedia.org/wiki/Julian_calendar),
-[Jewish](https://en.wikipedia.org/wiki/Hebrew_calendar) and
-[Persian (Jalali)](https://en.wikipedia.org/wiki/Iranian_calendars) calendars, plus
-a drop-in replacement for PHP‘s [ext/calendar](https://php.net/calendar) extension.
 
 Requirements
 ============
