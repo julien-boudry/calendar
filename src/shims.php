@@ -63,7 +63,7 @@ if (!\defined('CAL_GREGORIAN')) {
      * @param int $julian_day
      * @param int $calendar_id
      *
-     * @return array
+     * @return array<string, int|string|null>
      */
     function cal_from_jd($julian_day, $calendar_id)
     {
@@ -73,7 +73,7 @@ if (!\defined('CAL_GREGORIAN')) {
     /**
      * @param int $calendar_id
      *
-     * @return array
+     * @return array<string|int, mixed>
      */
     function cal_info($calendar_id = -1)
     {

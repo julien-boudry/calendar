@@ -153,6 +153,8 @@ class Shim
      * Shim implementation of cal_from_jd()
      *
      * @link https://php.net/cal_from_jd
+     *
+     * @return array<string, int|string|null>
      */
     public static function calFromJd(int $julian_day, int $calendar_id): array
     {
@@ -190,7 +192,7 @@ class Shim
      * @param string[] $months
      * @param string[] $months_short
      *
-     * @return array<string, mixed>
+     * @return array<string, int|string|null>
      */
     private static function calFromJdCalendar(int $julian_day, string $mdy, array $months, array $months_short): array
     {
@@ -215,6 +217,8 @@ class Shim
      * Shim implementation of cal_info()
      *
      * @link https://php.net/cal_info
+     *
+     * @return array<string|int, mixed>
      */
     public static function calInfo(int $calendar_id): array
     {
