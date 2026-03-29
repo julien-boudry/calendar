@@ -22,8 +22,7 @@
 	},
 	"require-dev": {
 		"phpunit/phpunit": "*",
-		"satooshi/php-coveralls": "*",
-		"yoast/phpunit-polyfills": "*"
+		"friendsofphp/php-cs-fixer": "^3.94"
 	},
 	"provide": {
 		"ext-calendar": "1"
@@ -37,4 +36,3 @@
 		}
 	}
 }
-
