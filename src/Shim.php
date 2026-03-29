@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * class Shim - PHP implementations of functions from the PHP calendar extension.
@@ -41,57 +41,57 @@ class Shim
      *
      * @var string[]
      */
-    private static $DAY_NAMES = array(
+    private static $DAY_NAMES = [
         'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
-    );
+    ];
 
     /**
      * Abbreviated English names for the days of the week.
      *
      * @var string[]
      */
-    private static $DAY_NAMES_SHORT = array(
+    private static $DAY_NAMES_SHORT = [
         'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
-    );
+    ];
 
     /** @var string[] Names of the months of the Gregorian/Julian calendars */
-    private static $MONTH_NAMES = array(
+    private static $MONTH_NAMES = [
         '', 'January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December',
-    );
+    ];
 
     /** @var string[] Abbreviated names of the months of the Gregorian/Julian calendars */
-    private static $MONTH_NAMES_SHORT = array(
+    private static $MONTH_NAMES_SHORT = [
         '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-    );
+    ];
 
     /** @var string[] Name of the months of the French calendar */
-    private static $MONTH_NAMES_FRENCH = array(
+    private static $MONTH_NAMES_FRENCH = [
         '', 'Vendemiaire', 'Brumaire', 'Frimaire', 'Nivose', 'Pluviose', 'Ventose',
-        'Germinal', 'Floreal', 'Prairial', 'Messidor', 'Thermidor', 'Fructidor', 'Extra'
-    );
+        'Germinal', 'Floreal', 'Prairial', 'Messidor', 'Thermidor', 'Fructidor', 'Extra',
+    ];
 
     /** @var string[] Names of the months of the Jewish calendar in a non-leap year */
-    private static $MONTH_NAMES_JEWISH = array(
+    private static $MONTH_NAMES_JEWISH = [
         '', 'Tishri', 'Heshvan', 'Kislev', 'Tevet', 'Shevat', 'Adar',
         'Adar', 'Nisan', 'Iyyar', 'Sivan', 'Tammuz', 'Av', 'Elul',
-    );
+    ];
 
     /** @var string[] Names of the months of the Jewish calendar in a leap year */
-    private static $MONTH_NAMES_JEWISH_LEAP_YEAR = array(
+    private static $MONTH_NAMES_JEWISH_LEAP_YEAR = [
         '', 'Tishri', 'Heshvan', 'Kislev', 'Tevet', 'Shevat', 'Adar I',
         'Adar II', 'Nisan', 'Iyyar', 'Sivan', 'Tammuz', 'Av', 'Elul',
-    );
+    ];
 
     /**
      * Create the necessary shims to emulate the ext/calendar package.
      */
     public static function create(): void
     {
-        self::$french_calendar    = new FrenchCalendar();
-        self::$gregorian_calendar = new GregorianCalendar();
-        self::$jewish_calendar    = new JewishCalendar();
-        self::$julian_calendar    = new JulianCalendar();
+        self::$french_calendar    = new FrenchCalendar;
+        self::$gregorian_calendar = new GregorianCalendar;
+        self::$jewish_calendar    = new JewishCalendar;
+        self::$julian_calendar    = new JulianCalendar;
     }
 
     /**
@@ -104,16 +104,16 @@ class Shim
     public static function calDaysInMonth(int $calendar_id, int $month, int $year): int
     {
         switch ($calendar_id) {
-            case CAL_FRENCH:
+            case \CAL_FRENCH:
                 return self::calDaysInMonthFrench($year, $month);
 
-            case CAL_GREGORIAN:
+            case \CAL_GREGORIAN:
                 return self::calDaysInMonthCalendar(self::$gregorian_calendar, $year, $month);
 
-            case CAL_JEWISH:
+            case \CAL_JEWISH:
                 return self::calDaysInMonthCalendar(self::$jewish_calendar, $year, $month);
 
-            case CAL_JULIAN:
+            case \CAL_JULIAN:
                 return self::calDaysInMonthCalendar(self::$julian_calendar, $year, $month);
 
             default:
@@ -157,13 +157,13 @@ class Shim
     public static function calFromJd(int $julian_day, int $calendar_id): array
     {
         switch ($calendar_id) {
-            case CAL_FRENCH:
+            case \CAL_FRENCH:
                 return self::calFromJdCalendar($julian_day, self::jdToFrench($julian_day), self::$MONTH_NAMES_FRENCH, self::$MONTH_NAMES_FRENCH);
 
-            case CAL_GREGORIAN:
+            case \CAL_GREGORIAN:
                 return self::calFromJdCalendar($julian_day, self::jdToGregorian($julian_day), self::$MONTH_NAMES, self::$MONTH_NAMES_SHORT);
 
-            case CAL_JEWISH:
+            case \CAL_JEWISH:
                 $months = self::jdMonthNameJewishMonths($julian_day);
 
                 $cal = self::calFromJdCalendar($julian_day, self::jdToCalendar(self::$jewish_calendar, $julian_day, 347998, 324542846), $months, $months);
@@ -176,7 +176,7 @@ class Shim
 
                 return $cal;
 
-            case CAL_JULIAN:
+            case \CAL_JULIAN:
                 return self::calFromJdCalendar($julian_day, self::jdToJulian($julian_day), self::$MONTH_NAMES, self::$MONTH_NAMES_SHORT);
 
             default:
@@ -194,9 +194,9 @@ class Shim
      */
     private static function calFromJdCalendar(int $julian_day, string $mdy, array $months, array $months_short): array
     {
-        list($month, $day, $year) = explode('/', $mdy);
+        [$month, $day, $year] = explode('/', $mdy);
 
-        return array(
+        return [
             'date'          => $month . '/' . $day . '/' . $year,
             'month'         => (int) $month,
             'day'           => (int) $day,
@@ -206,7 +206,7 @@ class Shim
             'dayname'       => self::jdDayOfWeek($julian_day, 1),
             'abbrevmonth'   => $months_short[$month],
             'monthname'     => $months[$month],
-        );
+        ];
     }
 
     /**
@@ -219,25 +219,25 @@ class Shim
     public static function calInfo(int $calendar_id): array
     {
         switch ($calendar_id) {
-            case CAL_FRENCH:
+            case \CAL_FRENCH:
                 return self::calInfoCalendar(self::$MONTH_NAMES_FRENCH, self::$MONTH_NAMES_FRENCH, 30, 'French', 'CAL_FRENCH');
 
-            case CAL_GREGORIAN:
+            case \CAL_GREGORIAN:
                 return self::calInfoCalendar(self::$MONTH_NAMES, self::$MONTH_NAMES_SHORT, 31, 'Gregorian', 'CAL_GREGORIAN');
 
-            case CAL_JEWISH:
+            case \CAL_JEWISH:
                 return self::calInfoCalendar(self::$MONTH_NAMES_JEWISH_LEAP_YEAR, self::$MONTH_NAMES_JEWISH_LEAP_YEAR, 30, 'Jewish', 'CAL_JEWISH');
 
-            case CAL_JULIAN:
+            case \CAL_JULIAN:
                 return self::calInfoCalendar(self::$MONTH_NAMES, self::$MONTH_NAMES_SHORT, 31, 'Julian', 'CAL_JULIAN');
 
             case -1:
-                return array(
-                    CAL_GREGORIAN => self::calInfo(CAL_GREGORIAN),
-                    CAL_JULIAN    => self::calInfo(CAL_JULIAN),
-                    CAL_JEWISH    => self::calInfo(CAL_JEWISH),
-                    CAL_FRENCH    => self::calInfo(CAL_FRENCH),
-                );
+                return [
+                    \CAL_GREGORIAN => self::calInfo(\CAL_GREGORIAN),
+                    \CAL_JULIAN    => self::calInfo(\CAL_JULIAN),
+                    \CAL_JEWISH    => self::calInfo(\CAL_JEWISH),
+                    \CAL_FRENCH    => self::calInfo(\CAL_FRENCH),
+                ];
 
             default:
                 throw new ValueError('cal_info(): Argument #1 ($calendar) must be a valid calendar ID');
@@ -254,17 +254,17 @@ class Shim
      */
     private static function calInfoCalendar(array $month_names, array $month_names_short, int $max_days_in_month, string $calendar_name, string $calendar_symbol): array
     {
-        return array(
-            'months'         => array_slice($month_names, 1, null, true),
-            'abbrevmonths'   => array_slice($month_names_short, 1, null, true),
+        return [
+            'months'         => \array_slice($month_names, 1, null, true),
+            'abbrevmonths'   => \array_slice($month_names_short, 1, null, true),
             'maxdaysinmonth' => $max_days_in_month,
             'calname'        => $calendar_name,
             'calsymbol'      => $calendar_symbol,
-        );
+        ];
     }
 
     /**
-     *  Converts from a supported calendar to Julian Day Count
+     *  Converts from a supported calendar to Julian Day Count.
      *
      * Shim implementation of cal_to_jd()
      *
@@ -273,16 +273,16 @@ class Shim
     public static function calToJd(int $calendar_id, int $month, int $day, int $year): int
     {
         switch ($calendar_id) {
-            case CAL_FRENCH:
+            case \CAL_FRENCH:
                 return self::frenchToJd($month, $day, $year);
 
-            case CAL_GREGORIAN:
+            case \CAL_GREGORIAN:
                 return self::gregorianToJd($month, $day, $year);
 
-            case CAL_JEWISH:
+            case \CAL_JEWISH:
                 return self::jewishToJd($month, $day, $year);
 
-            case CAL_JULIAN:
+            case \CAL_JULIAN:
                 return self::julianToJd($month, $day, $year);
 
             default:
@@ -306,10 +306,10 @@ class Shim
         $days = self::$gregorian_calendar->easterDays($year);
 
         if ($days < 11) {
-            return mktime(0, 0, 0, 3, $days + 21, $year);
+            return (int) mktime(0, 0, 0, 3, $days + 21, $year);
         }
 
-        return mktime(0, 0, 0, 4, $days - 10, $year);
+        return (int) mktime(0, 0, 0, 4, $days - 10, $year);
     }
 
     /**
@@ -322,13 +322,13 @@ class Shim
     public static function easterDays(int $year, int $method): int
     {
         if ($year < 1) {
-            throw new ValueError('easter_days(): Argument #1 ($year) must be between 1 and ' . PHP_INT_MAX);
+            throw new ValueError('easter_days(): Argument #1 ($year) must be between 1 and ' . \PHP_INT_MAX);
         }
 
         if (
-            $method === CAL_EASTER_ALWAYS_JULIAN ||
-            $method === CAL_EASTER_ROMAN && $year <= 1582 ||
-            $year <= 1752 && $method !== CAL_EASTER_ROMAN && $method !== CAL_EASTER_ALWAYS_GREGORIAN
+            $method === \CAL_EASTER_ALWAYS_JULIAN
+            || $method === \CAL_EASTER_ROMAN && $year <= 1582
+            || $year <= 1752 && $method !== \CAL_EASTER_ROMAN && $method !== \CAL_EASTER_ALWAYS_GREGORIAN
         ) {
             return self::$julian_calendar->easterDays($year);
         }
@@ -404,22 +404,22 @@ class Shim
     public static function jdMonthName(int $julian_day, int $mode): string
     {
         switch ($mode) {
-            case CAL_MONTH_GREGORIAN_LONG:
+            case \CAL_MONTH_GREGORIAN_LONG:
                 return self::jdMonthNameCalendar(self::$gregorian_calendar, $julian_day, self::$MONTH_NAMES);
 
-            case CAL_MONTH_JULIAN_LONG:
+            case \CAL_MONTH_JULIAN_LONG:
                 return self::jdMonthNameCalendar(self::$julian_calendar, $julian_day, self::$MONTH_NAMES);
 
-            case CAL_MONTH_JULIAN_SHORT:
+            case \CAL_MONTH_JULIAN_SHORT:
                 return self::jdMonthNameCalendar(self::$julian_calendar, $julian_day, self::$MONTH_NAMES_SHORT);
 
-            case CAL_MONTH_JEWISH:
+            case \CAL_MONTH_JEWISH:
                 return self::jdMonthNameCalendar(self::$jewish_calendar, $julian_day, self::jdMonthNameJewishMonths($julian_day));
 
-            case CAL_MONTH_FRENCH:
+            case \CAL_MONTH_FRENCH:
                 return self::jdMonthNameCalendar(self::$french_calendar, $julian_day, self::$MONTH_NAMES_FRENCH);
 
-            case CAL_MONTH_GREGORIAN_SHORT:
+            case \CAL_MONTH_GREGORIAN_SHORT:
             default:
                 return self::jdMonthNameCalendar(self::$gregorian_calendar, $julian_day, self::$MONTH_NAMES_SHORT);
         }
@@ -433,7 +433,7 @@ class Shim
      */
     private static function jdMonthNameCalendar(CalendarInterface $calendar, int $julian_day, array $months): string
     {
-        list(, $month) = $calendar->jdToYmd($julian_day);
+        [, $month] = $calendar->jdToYmd($julian_day);
 
         return $months[$month];
     }
@@ -445,9 +445,9 @@ class Shim
      */
     private static function jdMonthNameJewishMonths(int $julian_day): array
     {
-        list(, , $year) = explode('/', self::jdToCalendar(self::$jewish_calendar, $julian_day, 347998, 324542846));
+        [, , $year] = explode('/', self::jdToCalendar(self::$jewish_calendar, $julian_day, 347998, 324542846));
 
-        if (self::$jewish_calendar->isLeapYear($year)) {
+        if (self::$jewish_calendar->isLeapYear((int) $year)) {
             return self::$MONTH_NAMES_JEWISH_LEAP_YEAR;
         }
 
@@ -462,7 +462,7 @@ class Shim
     private static function jdToCalendar(CalendarInterface $calendar, int $julian_day, int $min_jd, int $max_jd): string
     {
         if ($julian_day >= $min_jd && $julian_day <= $max_jd) {
-            list($year, $month, $day) = $calendar->jdToYmd($julian_day);
+            [$year, $month, $day] = $calendar->jdToYmd($julian_day);
 
             return $month . '/' . $day . '/' . $year;
         }
@@ -512,9 +512,9 @@ class Shim
 
             return self::$jewish_calendar->jdToHebrew(
                 $julian_day,
-                (bool)($fl & CAL_JEWISH_ADD_ALAFIM_GERESH),
-                (bool)($fl & CAL_JEWISH_ADD_ALAFIM),
-                (bool)($fl & CAL_JEWISH_ADD_GERESHAYIM)
+                (bool) ($fl & \CAL_JEWISH_ADD_ALAFIM_GERESH),
+                (bool) ($fl & \CAL_JEWISH_ADD_ALAFIM),
+                (bool) ($fl & \CAL_JEWISH_ADD_GERESHAYIM)
             );
         }
 
@@ -551,7 +551,7 @@ class Shim
     }
 
     /**
-     * What is the maximum value acceptable to jdtounix()
+     * What is the maximum value acceptable to jdtounix().
      *
      * @internal
      */

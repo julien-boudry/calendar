@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class JulianCalendar - calculations for the Julian calendar.
@@ -86,7 +86,7 @@ class JulianCalendar implements CalendarInterface
      */
     public function jdEnd(): int
     {
-        return PHP_INT_MAX;
+        return \PHP_INT_MAX;
     }
 
     /**
@@ -117,7 +117,7 @@ class JulianCalendar implements CalendarInterface
             $year--;
         }
 
-        return array($year, $month, $day);
+        return [$year, $month, $day];
     }
 
     /**

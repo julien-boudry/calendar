@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class JewishCalendar - calculations for the Jewish calendar.
@@ -28,30 +28,29 @@ use InvalidArgumentException;
 
 class JewishCalendar implements CalendarInterface
 {
-
     /** Place this symbol before the final letter of a sequence of numerals */
-    const GERSHAYIM_ISO8859 = '"';
-    const GERSHAYIM         = "\xd7\xb4";
+    public const GERSHAYIM_ISO8859 = '"';
+    public const GERSHAYIM         = "\xd7\xb4";
 
     /** Place this symbol after a single numeral */
-    const GERESH_ISO8859 = '\'';
-    const GERESH         = "\xd7\xb3";
+    public const GERESH_ISO8859 = '\'';
+    public const GERESH         = "\xd7\xb3";
 
     /** The Hebrew word for thousand */
-    const ALAFIM_ISO8859 = "\xe0\xec\xf4\xe9\xed";
-    const ALAFIM         = "\xd7\x90\xd7\x9c\xd7\xa4\xd7\x99\xd7\x9d";
+    public const ALAFIM_ISO8859 = "\xe0\xec\xf4\xe9\xed";
+    public const ALAFIM         = "\xd7\x90\xd7\x9c\xd7\xa4\xd7\x99\xd7\x9d";
 
     /** A year that is one day shorter than normal. */
-    const DEFECTIVE_YEAR = -1;
+    public const DEFECTIVE_YEAR = -1;
 
     /** A year that has the normal number of days. */
-    const REGULAR_YEAR = 0;
+    public const REGULAR_YEAR = 0;
 
     /** A year that is one day longer than normal. */
-    const COMPLETE_YEAR = 1;
+    public const COMPLETE_YEAR = 1;
 
     /** @var string[] Hebrew numbers are represented by letters, similar to roman numerals. */
-    private static $HEBREW_NUMERALS_ISO8859_8 = array(
+    private static $HEBREW_NUMERALS_ISO8859_8 = [
         400 => "\xfa",
         300 => "\xf9",
         200 => "\xf8",
@@ -79,10 +78,10 @@ class JewishCalendar implements CalendarInterface
         3   => "\xe2",
         2   => "\xe1",
         1   => "\xe0",
-    );
+    ];
 
     /** @var string[] Hebrew numbers are represented by letters, similar to roman numerals. */
-    private static $HEBREW_NUMERALS_UTF8 = array(
+    private static $HEBREW_NUMERALS_UTF8 = [
         400 => "\xd7\xaa",
         300 => "\xd7\xa9",
         200 => "\xd7\xa8",
@@ -110,57 +109,57 @@ class JewishCalendar implements CalendarInterface
         3   => "\xd7\x92",
         2   => "\xd7\x91",
         1   => "\xd7\x90",
-    );
+    ];
 
-    /** @var string[] Some letters have a different final form  */
-    private static $FINAL_FORMS_UTF8 = array(
+    /** @var string[] Some letters have a different final form */
+    private static $FINAL_FORMS_UTF8 = [
         "\xd7\x9b" => "\xd7\x9a",
         "\xd7\x9e" => "\xd7\x9d",
         "\xd7\xa0" => "\xd7\x9f",
         "\xd7\xa4" => "\xd7\xa3",
         "\xd7\xa6" => "\xd7\xa5",
-    );
+    ];
 
     /** @var int[] These months have fixed lengths.  Others are variable. */
-    private static $FIXED_MONTH_LENGTHS = array(
-        1 => 30, 4 => 29, 5 => 30, 7 => 29, 8 => 30, 9 => 29, 10 => 30, 11 => 29, 12 => 30, 13 => 29
-    );
+    private static $FIXED_MONTH_LENGTHS = [
+        1 => 30, 4 => 29, 5 => 30, 7 => 29, 8 => 30, 9 => 29, 10 => 30, 11 => 29, 12 => 30, 13 => 29,
+    ];
 
     /**
      * Cumulative number of days for each month in each type of year.
      * First index is false/true (non-leap year, leap year)
      * Second index is year type (-1, 0, 1)
-     * Third index is month number (1 ... 13)
+     * Third index is month number (1 ... 13).
      *
      * @var int[][][]
      */
-    private static $CUMULATIVE_DAYS = array(
-        0 => array( // Non-leap years
-            self::DEFECTIVE_YEAR => array(
-                1 => 0, 30, 59, 88, 117, 147, 147, 176, 206, 235, 265, 294, 324
-            ),
-            self::REGULAR_YEAR  => array( // Regular years
-                1 => 0, 30, 59, 89, 118, 148, 148, 177, 207, 236, 266, 295, 325
-            ),
-            self::COMPLETE_YEAR  => array( // Complete years
-                1 => 0, 30, 60, 90, 119, 149, 149, 178, 208, 237, 267, 296, 326
-            ),
-        ),
-        1 => array( // Leap years
-            self::DEFECTIVE_YEAR => array( // Deficient years
-                1 => 0, 30, 59, 88, 117, 147, 177, 206, 236, 265, 295, 324, 354
-            ),
-            self::REGULAR_YEAR  => array( // Regular years
-                1 => 0, 30, 59, 89, 118, 148, 178, 207, 237, 266, 296, 325, 355
-            ),
-            self::COMPLETE_YEAR  => array( // Complete years
-                1 => 0, 30, 60, 90, 119, 149, 179, 208, 238, 267, 297, 326, 356
-            ),
-        ),
-    );
+    private static $CUMULATIVE_DAYS = [
+        0 => [ // Non-leap years
+            self::DEFECTIVE_YEAR => [
+                1 => 0, 30, 59, 88, 117, 147, 147, 176, 206, 235, 265, 294, 324,
+            ],
+            self::REGULAR_YEAR  => [ // Regular years
+                1 => 0, 30, 59, 89, 118, 148, 148, 177, 207, 236, 266, 295, 325,
+            ],
+            self::COMPLETE_YEAR  => [ // Complete years
+                1 => 0, 30, 60, 90, 119, 149, 149, 178, 208, 237, 267, 296, 326,
+            ],
+        ],
+        1 => [ // Leap years
+            self::DEFECTIVE_YEAR => [ // Deficient years
+                1 => 0, 30, 59, 88, 117, 147, 177, 206, 236, 265, 295, 324, 354,
+            ],
+            self::REGULAR_YEAR  => [ // Regular years
+                1 => 0, 30, 59, 89, 118, 148, 178, 207, 237, 266, 296, 325, 355,
+            ],
+            self::COMPLETE_YEAR  => [ // Complete years
+                1 => 0, 30, 60, 90, 119, 149, 179, 208, 238, 267, 297, 326, 356,
+            ],
+        ],
+    ];
 
     /** @var int[] Rosh Hashanah cannot fall on a Sunday, Wednesday or Friday.  Move the year start accordingly. */
-    private static $ROSH_HASHANAH = array(347998, 347997, 347997, 347998, 347997, 347998, 347997);
+    private static $ROSH_HASHANAH = [347998, 347997, 347997, 347998, 347997, 347998, 347997];
 
     /**
      * Determine the number of days in a specified month, allowing for leap years, etc.
@@ -219,7 +218,7 @@ class JewishCalendar implements CalendarInterface
      */
     public function jdEnd(): int
     {
-        return PHP_INT_MAX;
+        return \PHP_INT_MAX;
     }
 
     /**
@@ -263,7 +262,7 @@ class JewishCalendar implements CalendarInterface
             $month++;
         }
 
-        return array($year, $month, $day);
+        return [$year, $month, $day];
     }
 
     /**
@@ -294,9 +293,9 @@ class JewishCalendar implements CalendarInterface
         $julian_day  = 1 + 29 * $months + (int) ($hours / 24);
 
         if (
-            $conjunction >= 19440 ||
-            $julian_day % 7 === 2 && $conjunction >= 9924 && !$this->isLeapYear($year) ||
-            $julian_day % 7 === 1 && $conjunction >= 16789 && $this->isLeapYear($year - 1)
+            $conjunction >= 19440
+            || $julian_day % 7 === 2 && $conjunction >= 9924 && !$this->isLeapYear($year)
+            || $julian_day % 7 === 1 && $conjunction >= 16789 && $this->isLeapYear($year - 1)
         ) {
             $julian_day++;
         }
@@ -311,9 +310,9 @@ class JewishCalendar implements CalendarInterface
     public function ymdToJd(int $year, int $month, int $day): int
     {
         return
-            $this->yToJd($year) +
-            self::$CUMULATIVE_DAYS[$this->isLeapYear($year)][$this->yearType($year)][$month] +
-            $day - 1;
+            $this->yToJd($year)
+            + self::$CUMULATIVE_DAYS[$this->isLeapYear($year)][$this->yearType($year)][$month]
+            + $day - 1;
     }
 
     /**
@@ -383,7 +382,7 @@ class JewishCalendar implements CalendarInterface
     {
         $leap_year = $this->isLeapYear($year);
 
-        return array(
+        return [
             1 => "\xfa\xf9\xf8\xe9", // Tishri - תשרי
             "\xe7\xf9\xe5\xef", // Heshvan - חשון
             "\xeb\xf1\xec\xe5", // Kislev - כסלו
@@ -397,7 +396,7 @@ class JewishCalendar implements CalendarInterface
             "\xfa\xee\xe5\xe6", // Tammuz - תמוז
             "\xe0\xe1", // Av - אב
             "\xe0\xec\xe5\xec", // Elul - אלול
-        );
+        ];
     }
 
     /**
@@ -417,7 +416,7 @@ class JewishCalendar implements CalendarInterface
      */
     protected function addGereshayim(string $hebrew): string
     {
-        switch (strlen($hebrew)) {
+        switch (\strlen($hebrew)) {
             case 0:
                 // Zero, e.g. the zeros from the year 5,000
                 return $hebrew;
@@ -431,7 +430,7 @@ class JewishCalendar implements CalendarInterface
     }
 
     /**
-     * Convert a number into a string, in the style of roman numerals
+     * Convert a number into a string, in the style of roman numerals.
      *
      * @param string[] $numerals
      */
@@ -444,6 +443,7 @@ class JewishCalendar implements CalendarInterface
                 if ($number >= $n) {
                     $string .= $t;
                     $number -= $n;
+
                     break;
                 }
             }
@@ -460,7 +460,7 @@ class JewishCalendar implements CalendarInterface
         // Years (e.g. "5782") may be written without the thousands (e.g. just "782"),
         // but since there is no zero, the number 5000 must be written as "5 thousand"
         if ($show_thousands || $number % 1000 === 0) {
-            $thousands = (int)($number / 1000);
+            $thousands = (int) ($number / 1000);
         } else {
             $thousands = 0;
         }
@@ -469,10 +469,10 @@ class JewishCalendar implements CalendarInterface
         $hebrew = $this->numberToNumerals($number, self::$HEBREW_NUMERALS_UTF8);
 
         // Two bytes per UTF8 character
-        if (strlen($hebrew) === 2) {
+        if (\strlen($hebrew) === 2) {
             // Append a geresh after single-digit
             $hebrew .= self::GERESH;
-        } elseif (strlen($hebrew) > 2) {
+        } elseif (\strlen($hebrew) > 2) {
             // Some letters have a "final" form, when used at the end of a word.
             $hebrew = substr($hebrew, 0, -2) . strtr(substr($hebrew, -2), self::$FINAL_FORMS_UTF8);
             // Insert a gershayim before the final letter
@@ -530,11 +530,11 @@ class JewishCalendar implements CalendarInterface
      */
     public function jdToHebrew(int $julian_day, bool $alafim_garesh, bool $alafim, bool $gereshayim): string
     {
-        list($year, $month, $day) = $this->jdToYmd($julian_day);
+        [$year, $month, $day] = $this->jdToYmd($julian_day);
 
         return
-            $this->numberToHebrewNumeralsIso8859($day, $gereshayim) . ' ' .
-            $this->hebrewMonthName($year, $month) . ' ' .
-            $this->yearToHebrewNumerals($year, $alafim_garesh, $alafim, $gereshayim);
+            $this->numberToHebrewNumeralsIso8859($day, $gereshayim) . ' '
+            . $this->hebrewMonthName($year, $month) . ' '
+            . $this->yearToHebrewNumerals($year, $alafim_garesh, $alafim, $gereshayim);
     }
 }

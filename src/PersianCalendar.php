@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class PersianCalendar - calculations for the Persian (Jalali) calendar.
@@ -32,9 +32,9 @@ class PersianCalendar implements CalendarInterface
      *
      * @var int[]
      */
-    private static $LEAP_YEAR_CYCLE = array(
-        0, 5, 9, 13, 17, 21, 25, 29, 34, 38, 42, 46, 50, 54, 58, 62, 67, 71, 75, 79, 83, 87, 91, 95, 100, 104, 108, 112, 116, 120, 124
-    );
+    private static $LEAP_YEAR_CYCLE = [
+        0, 5, 9, 13, 17, 21, 25, 29, 34, 38, 42, 46, 50, 54, 58, 62, 67, 71, 75, 79, 83, 87, 91, 95, 100, 104, 108, 112, 116, 120, 124,
+    ];
 
     /**
      * Determine the number of days in a specified month, allowing for leap years, etc.
@@ -73,7 +73,7 @@ class PersianCalendar implements CalendarInterface
      */
     public function isLeapYear(int $year): bool
     {
-        return in_array((($year + 2346) % 2820) % 128, self::$LEAP_YEAR_CYCLE);
+        return \in_array((($year + 2346) % 2820) % 128, self::$LEAP_YEAR_CYCLE, true);
     }
 
     /**
@@ -81,7 +81,7 @@ class PersianCalendar implements CalendarInterface
      */
     public function jdEnd(): int
     {
-        return PHP_INT_MAX;
+        return \PHP_INT_MAX;
     }
 
     /**
@@ -113,10 +113,10 @@ class PersianCalendar implements CalendarInterface
 
         // If we allowed negative years, we would deal with them here.
         $yday  = $julian_day - $this->ymdToJd($year, 1, 1) + 1;
-        $month = ($yday <= 186) ? ceil($yday / 31) : ceil(($yday - 6) / 30);
+        $month = (int) (($yday <= 186) ? ceil($yday / 31) : ceil(($yday - 6) / 30));
         $day   = $julian_day - $this->ymdToJd($year, $month, 1) + 1;
 
-        return array((int) $year, (int) $month, (int) $day);
+        return [(int) $year, (int) $month, (int) $day];
     }
 
     /**
@@ -141,12 +141,12 @@ class PersianCalendar implements CalendarInterface
         $epyear = 474 + $this->mod($epbase, 2820);
 
         return
-            $day +
-            (($month <= 7) ? (($month - 1) * 31) : ((($month - 1) * 30) + 6)) +
-            (int) ((($epyear * 682) - 110) / 2816) +
-            ($epyear - 1) * 365 +
-            (int) (floor($epbase / 2820)) * 1029983 +
-            $this->jdStart() - 1;
+            $day
+            + (($month <= 7) ? (($month - 1) * 31) : ((($month - 1) * 30) + 6))
+            + (int) ((($epyear * 682) - 110) / 2816)
+            + ($epyear - 1) * 365
+            + (int) (floor($epbase / 2820)) * 1029983
+            + $this->jdStart() - 1;
     }
 
     /**

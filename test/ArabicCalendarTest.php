@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * Test harness for the class ArabicCalendar
+ * Test harness for the class ArabicCalendar.
  *
  * @author    Greg Roach <greg@subaqua.co.uk>
  * @copyright (c) 2014-2021 Greg Roach
@@ -43,13 +43,13 @@ class ArabicCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testConstants()
+    public function testConstants(): void
     {
-        $calendar = new ArabicCalendar();
+        $calendar = new ArabicCalendar;
 
         $this->assertSame('@#DHIJRI@', $calendar->gedcomCalendarEscape());
         $this->assertSame(1948440, $calendar->jdStart());
-        $this->assertSame(PHP_INT_MAX, $calendar->jdEnd());
+        $this->assertSame(\PHP_INT_MAX, $calendar->jdEnd());
         $this->assertSame(7, $calendar->daysInWeek());
         $this->assertSame(12, $calendar->monthsInYear());
     }
@@ -61,9 +61,9 @@ class ArabicCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testIsLeapYear()
+    public function testIsLeapYear(): void
     {
-        $arabic = new ArabicCalendar();
+        $arabic = new ArabicCalendar;
 
         $this->assertSame($arabic->isLeapYear(1201), false);
         $this->assertSame($arabic->isLeapYear(1202), true);
@@ -104,9 +104,9 @@ class ArabicCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testDaysInMonth()
+    public function testDaysInMonth(): void
     {
-        $arabic = new ArabicCalendar();
+        $arabic = new ArabicCalendar;
 
         $this->assertSame($arabic->daysInMonth(1201, 1), 30);
         $this->assertSame($arabic->daysInMonth(1201, 2), 28);
@@ -142,60 +142,60 @@ class ArabicCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testYmdTojd()
+    public function testYmdTojd(): void
     {
-        $arabic = new ArabicCalendar();
+        $arabic = new ArabicCalendar;
 
         $this->assertSame($arabic->ymdToJd(1, 1, 1), 1948440);  // 19 JUL 622 (Gregorian)
-        $this->assertSame($arabic->jdToYmd(1948440), array(1, 1, 1));
+        $this->assertSame($arabic->jdToYmd(1948440), [1, 1, 1]);
         $this->assertSame($arabic->ymdToJd(1201, 1, 30), 2373709);
-        $this->assertSame($arabic->jdToYmd(2373709), array(1201,1,30));
+        $this->assertSame($arabic->jdToYmd(2373709), [1201, 1, 30]);
         $this->assertSame($arabic->ymdToJd(1201, 2, 28), 2373737);
-        $this->assertSame($arabic->jdToYmd(2373737), array(1201,2,28));
+        $this->assertSame($arabic->jdToYmd(2373737), [1201, 2, 28]);
         $this->assertSame($arabic->ymdToJd(1201, 3, 30), 2373768);
-        $this->assertSame($arabic->jdToYmd(2373768), array(1201,3,30));
+        $this->assertSame($arabic->jdToYmd(2373768), [1201, 3, 30]);
         $this->assertSame($arabic->ymdToJd(1201, 4, 29), 2373797);
-        $this->assertSame($arabic->jdToYmd(2373797), array(1201,4,29));
+        $this->assertSame($arabic->jdToYmd(2373797), [1201, 4, 29]);
         $this->assertSame($arabic->ymdToJd(1201, 5, 30), 2373827);
-        $this->assertSame($arabic->jdToYmd(2373827), array(1201,5,30));
+        $this->assertSame($arabic->jdToYmd(2373827), [1201, 5, 30]);
         $this->assertSame($arabic->ymdToJd(1201, 6, 29), 2373856);
-        $this->assertSame($arabic->jdToYmd(2373856), array(1201,6,29));
+        $this->assertSame($arabic->jdToYmd(2373856), [1201, 6, 29]);
         $this->assertSame($arabic->ymdToJd(1201, 7, 30), 2373886);
-        $this->assertSame($arabic->jdToYmd(2373886), array(1201,7,30));
+        $this->assertSame($arabic->jdToYmd(2373886), [1201, 7, 30]);
         $this->assertSame($arabic->ymdToJd(1201, 8, 29), 2373915);
-        $this->assertSame($arabic->jdToYmd(2373915), array(1201,8,29));
+        $this->assertSame($arabic->jdToYmd(2373915), [1201, 8, 29]);
         $this->assertSame($arabic->ymdToJd(1201, 9, 30), 2373945);
-        $this->assertSame($arabic->jdToYmd(2373945), array(1201,9,30));
+        $this->assertSame($arabic->jdToYmd(2373945), [1201, 9, 30]);
         $this->assertSame($arabic->ymdToJd(1201, 10, 29), 2373974);
-        $this->assertSame($arabic->jdToYmd(2373974), array(1201,10,29));
+        $this->assertSame($arabic->jdToYmd(2373974), [1201, 10, 29]);
         $this->assertSame($arabic->ymdToJd(1201, 11, 30), 2374004);
-        $this->assertSame($arabic->jdToYmd(2374004), array(1201,11,30));
+        $this->assertSame($arabic->jdToYmd(2374004), [1201, 11, 30]);
         $this->assertSame($arabic->ymdToJd(1201, 12, 29), 2374033);
-        $this->assertSame($arabic->jdToYmd(2374033), array(1201,12,29));
+        $this->assertSame($arabic->jdToYmd(2374033), [1201, 12, 29]);
         $this->assertSame($arabic->ymdToJd(1202, 1, 30), 2374063);
-        $this->assertSame($arabic->jdToYmd(2374063), array(1202,1,30));
+        $this->assertSame($arabic->jdToYmd(2374063), [1202, 1, 30]);
         $this->assertSame($arabic->ymdToJd(1202, 2, 28), 2374091);
-        $this->assertSame($arabic->jdToYmd(2374091), array(1202,2,28));
+        $this->assertSame($arabic->jdToYmd(2374091), [1202, 2, 28]);
         $this->assertSame($arabic->ymdToJd(1202, 3, 30), 2374122);
-        $this->assertSame($arabic->jdToYmd(2374122), array(1202,3,30));
+        $this->assertSame($arabic->jdToYmd(2374122), [1202, 3, 30]);
         $this->assertSame($arabic->ymdToJd(1202, 4, 29), 2374151);
-        $this->assertSame($arabic->jdToYmd(2374151), array(1202,4,29));
+        $this->assertSame($arabic->jdToYmd(2374151), [1202, 4, 29]);
         $this->assertSame($arabic->ymdToJd(1202, 5, 30), 2374181);
-        $this->assertSame($arabic->jdToYmd(2374181), array(1202,5,30));
+        $this->assertSame($arabic->jdToYmd(2374181), [1202, 5, 30]);
         $this->assertSame($arabic->ymdToJd(1202, 6, 29), 2374210);
-        $this->assertSame($arabic->jdToYmd(2374210), array(1202,6,29));
+        $this->assertSame($arabic->jdToYmd(2374210), [1202, 6, 29]);
         $this->assertSame($arabic->ymdToJd(1202, 7, 30), 2374240);
-        $this->assertSame($arabic->jdToYmd(2374240), array(1202,7,30));
+        $this->assertSame($arabic->jdToYmd(2374240), [1202, 7, 30]);
         $this->assertSame($arabic->ymdToJd(1202, 8, 29), 2374269);
-        $this->assertSame($arabic->jdToYmd(2374269), array(1202,8,29));
+        $this->assertSame($arabic->jdToYmd(2374269), [1202, 8, 29]);
         $this->assertSame($arabic->ymdToJd(1202, 9, 30), 2374299);
-        $this->assertSame($arabic->jdToYmd(2374299), array(1202,9,30));
+        $this->assertSame($arabic->jdToYmd(2374299), [1202, 9, 30]);
         $this->assertSame($arabic->ymdToJd(1202, 10, 29), 2374328);
-        $this->assertSame($arabic->jdToYmd(2374328), array(1202,10,29));
+        $this->assertSame($arabic->jdToYmd(2374328), [1202, 10, 29]);
         $this->assertSame($arabic->ymdToJd(1202, 11, 30), 2374358);
-        $this->assertSame($arabic->jdToYmd(2374358), array(1202,11,30));
+        $this->assertSame($arabic->jdToYmd(2374358), [1202, 11, 30]);
         $this->assertSame($arabic->ymdToJd(1202, 12, 30), 2374388);
-        $this->assertSame($arabic->jdToYmd(2374388), array(1202,12,30));
+        $this->assertSame($arabic->jdToYmd(2374388), [1202, 12, 30]);
     }
 
     /**
@@ -206,12 +206,12 @@ class ArabicCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testJdToYmdReciprocity()
+    public function testJdToYmdReciprocity(): void
     {
-        $calendar = new ArabicCalendar();
+        $calendar = new ArabicCalendar;
 
         for ($jd = $calendar->jdStart(); $jd < min(2457755, $calendar->jdEnd()); $jd += 79) {
-            list($y, $m, $d) = $calendar->jdToYmd($jd);
+            [$y, $m, $d] = $calendar->jdToYmd($jd);
             $this->assertSame($jd, $calendar->ymdToJd($y, $m, $d));
         }
     }
@@ -221,12 +221,12 @@ class ArabicCalendarTest extends TestCase
      *
      * @covers \Fisharebest\ExtCalendar\ArabicCalendar::ymdToJd
      */
-    public function testYmdToJdInvalidMonth()
+    public function testYmdToJdInvalidMonth(): void
     {
         $this->expectExceptionMessage('Month 14 is invalid for this calendar');
         $this->expectException('InvalidArgumentException');
 
-        $calendar = new ArabicCalendar();
+        $calendar = new ArabicCalendar;
         $calendar->ymdToJd(4, 14, 1);
     }
 }

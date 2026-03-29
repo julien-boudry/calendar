@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class FrenchCalendar - calculations for the French Republican calendar.
@@ -122,7 +122,7 @@ class FrenchCalendar implements CalendarInterface
         $month = (int) (($julian_day - 2375475 - $year * 365 - (int) ($year / 4)) / 30) + 1;
         $day   = $julian_day - 2375444 - $month * 30 - $year * 365 - (int) ($year / 4);
 
-        return array($year, $month, $day);
+        return [$year, $month, $day];
     }
 
     /**

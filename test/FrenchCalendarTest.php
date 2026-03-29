@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * Test harness for the class FrenchCalendar
+ * Test harness for the class FrenchCalendar.
  *
  * @author    Greg Roach <greg@subaqua.co.uk>
  * @copyright (c) 2014-2021 Greg Roach
@@ -43,9 +43,9 @@ class FrenchCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testConstants()
+    public function testConstants(): void
     {
-        $calendar = new FrenchCalendar();
+        $calendar = new FrenchCalendar;
 
         $this->assertSame('@#DFRENCH R@', $calendar->gedcomCalendarEscape());
         $this->assertSame(2375840, $calendar->jdStart());
@@ -61,9 +61,9 @@ class FrenchCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testIsLeapYear()
+    public function testIsLeapYear(): void
     {
-        $french = new FrenchCalendar();
+        $french = new FrenchCalendar;
 
         $this->assertSame($french->isLeapYear(1), false);
         $this->assertSame($french->isLeapYear(2), false);
@@ -88,14 +88,14 @@ class FrenchCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testDaysInMonth()
+    public function testDaysInMonth(): void
     {
-        $french = new FrenchCalendar();
+        $french = new FrenchCalendar;
 
         // Cannot test year 14 against PHP, due to PHP bug 67976.
         for ($year = 1; $year <= 13; ++$year) {
             for ($month = 1; $month <= 13; ++$month) {
-                $this->assertSame($french->daysInMonth($year, $month), cal_days_in_month(CAL_FRENCH, $month, $year));
+                $this->assertSame($french->daysInMonth($year, $month), cal_days_in_month(\CAL_FRENCH, $month, $year));
             }
         }
     }
@@ -108,15 +108,15 @@ class FrenchCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testYmdTojd()
+    public function testYmdTojd(): void
     {
-        $french = new FrenchCalendar();
+        $french = new FrenchCalendar;
 
         $this->assertSame($french->ymdToJd(1, 1, 1), 2375840);
         $this->assertSame($french->ymdToJd(14, 13, 5), 2380952);
 
-        $this->assertSame($french->jdToYmd(2375840), array(1, 1, 1));
-        $this->assertSame($french->jdToYmd(2380952), array(14, 13, 5));
+        $this->assertSame($french->jdToYmd(2375840), [1, 1, 1]);
+        $this->assertSame($french->jdToYmd(2380952), [14, 13, 5]);
     }
 
     /**
@@ -127,17 +127,17 @@ class FrenchCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testYmdToJdDays()
+    public function testYmdToJdDays(): void
     {
-        $french = new FrenchCalendar();
+        $french = new FrenchCalendar;
 
-        foreach (array(3, 4) as $year) {
+        foreach ([3, 4] as $year) {
             for ($day = 1; $day <= 30; ++$day) {
-                $julian_day = FrenchToJD(8, $day, $year);
+                $julian_day = frenchtojd(8, $day, $year);
                 $ymd = $french->jdToYmd($julian_day);
 
                 $this->assertSame($french->ymdToJd($year, 8, $day), $julian_day);
-                $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], JDToFrench($julian_day));
+                $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], jdtofrench($julian_day));
             }
         }
     }
@@ -150,22 +150,22 @@ class FrenchCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testYmdToJdMonths()
+    public function testYmdToJdMonths(): void
     {
-        $french = new FrenchCalendar();
+        $french = new FrenchCalendar;
 
         for ($month = 1; $month <= 12; ++$month) {
-            $julian_day = FrenchToJD($month, 9, 5);
+            $julian_day = frenchtojd($month, 9, 5);
             $ymd = $french->jdToYmd($julian_day);
 
             $this->assertSame($french->ymdToJd(5, $month, 9), $julian_day);
-            $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], JDToFrench($julian_day));
+            $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], jdtofrench($julian_day));
 
-            $julian_day = FrenchToJD($month, 9, 5);
+            $julian_day = frenchtojd($month, 9, 5);
             $ymd = $french->jdToYmd($julian_day);
 
             $this->assertSame($french->ymdToJd(5, $month, 9), $julian_day);
-            $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], JDToFrench($julian_day));
+            $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], jdtofrench($julian_day));
         }
     }
 
@@ -177,16 +177,16 @@ class FrenchCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testYmdToJdYears()
+    public function testYmdToJdYears(): void
     {
-        $french = new FrenchCalendar();
+        $french = new FrenchCalendar;
 
         for ($year = 1; $year <= 14; ++$year) {
-            $julian_day = FrenchToJD(8, 9, $year);
+            $julian_day = frenchtojd(8, 9, $year);
             $ymd = $french->jdToYmd($julian_day);
 
             $this->assertSame($french->ymdToJd($year, 8, 9), $julian_day);
-            $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], JDToFrench($julian_day));
+            $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], jdtofrench($julian_day));
         }
     }
 
@@ -198,12 +198,12 @@ class FrenchCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testJdToYmdReciprocity()
+    public function testJdToYmdReciprocity(): void
     {
-        $calendar = new FrenchCalendar();
+        $calendar = new FrenchCalendar;
 
         for ($jd = $calendar->jdStart(); $jd < min(2457755, $calendar->jdEnd()); $jd++) {
-            list($y, $m, $d) = $calendar->jdToYmd($jd);
+            [$y, $m, $d] = $calendar->jdToYmd($jd);
             $this->assertSame($jd, $calendar->ymdToJd($y, $m, $d));
         }
     }
@@ -213,12 +213,12 @@ class FrenchCalendarTest extends TestCase
      *
      * @covers \Fisharebest\ExtCalendar\FrenchCalendar::ymdToJd
      */
-    public function testYmdToJdInvalidMonth()
+    public function testYmdToJdInvalidMonth(): void
     {
         $this->expectExceptionMessage('Month 14 is invalid for this calendar');
         $this->expectException('InvalidArgumentException');
 
-        $calendar = new FrenchCalendar();
+        $calendar = new FrenchCalendar;
         $calendar->ymdToJd(4, 14, 1);
     }
 }

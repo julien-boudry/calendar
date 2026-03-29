@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * class GregorianCalendar - calculations for the (proleptic) Gregorian calendar.
@@ -67,11 +67,11 @@ class GregorianCalendar extends JulianCalendar implements CalendarInterface
             $year--;
         }
 
-        return array($year, $month, $day);
+        return [$year, $month, $day];
     }
 
     /**
-     * Convert a year/month/day into a Julian day number
+     * Convert a year/month/day into a Julian day number.
      */
     public function ymdToJd(int $year, int $month, int $day): int
     {

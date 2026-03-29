@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ArabicCalendar - calculations for the Arabic (Hijri) calendar.
@@ -70,7 +70,7 @@ class ArabicCalendar implements CalendarInterface
      */
     public function jdEnd(): int
     {
-        return PHP_INT_MAX;
+        return \PHP_INT_MAX;
     }
 
     /**
@@ -92,7 +92,7 @@ class ArabicCalendar implements CalendarInterface
         $month = (int) ((11 * ($julian_day - $year * 354 - (int) ((3 + 11 * $year) / 30) - 1948086) + 330) / 325);
         $day   = $julian_day - 29 * ($month - 1) - (int) ((6 * $month - 1) / 11) - $year * 354 - (int) ((3 + 11 * $year) / 30) - 1948085;
 
-        return array($year, $month, $day);
+        return [$year, $month, $day];
     }
 
     /**

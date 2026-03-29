@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Interface CalendarInterface - each calendar implementation needs to provide

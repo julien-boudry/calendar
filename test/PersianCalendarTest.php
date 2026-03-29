@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * Test harness for the class PersianCalendar
+ * Test harness for the class PersianCalendar.
  *
  * @author    Greg Roach <greg@subaqua.co.uk>
  * @copyright (c) 2014-2021 Greg Roach
@@ -43,13 +43,13 @@ class PersianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testConstants()
+    public function testConstants(): void
     {
-        $calendar = new PersianCalendar();
+        $calendar = new PersianCalendar;
 
         $this->assertSame('@#DJALALI@', $calendar->gedcomCalendarEscape());
         $this->assertSame(1948321, $calendar->jdStart());
-        $this->assertSame(PHP_INT_MAX, $calendar->jdEnd());
+        $this->assertSame(\PHP_INT_MAX, $calendar->jdEnd());
         $this->assertSame(7, $calendar->daysInWeek());
         $this->assertSame(12, $calendar->monthsInYear());
     }
@@ -61,9 +61,9 @@ class PersianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testIsLeapYear()
+    public function testIsLeapYear(): void
     {
-        $persian = new PersianCalendar();
+        $persian = new PersianCalendar;
 
         $this->assertSame($persian->isLeapYear(1201), true);
         $this->assertSame($persian->isLeapYear(1202), false);
@@ -202,9 +202,9 @@ class PersianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testDaysInMonth()
+    public function testDaysInMonth(): void
     {
-        $persian = new PersianCalendar();
+        $persian = new PersianCalendar;
 
         $this->assertSame($persian->daysInMonth(1201, 1), 31);
         $this->assertSame($persian->daysInMonth(1201, 2), 31);
@@ -241,60 +241,60 @@ class PersianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testYmdTojd()
+    public function testYmdTojd(): void
     {
-        $persian = new PersianCalendar();
+        $persian = new PersianCalendar;
 
         $this->assertSame($persian->ymdToJd(1, 1, 1), 1948321);  // 22 MAR 622 (Gregorian)
-        $this->assertSame($persian->jdToYmd(1948321), array(1, 1, 1));
+        $this->assertSame($persian->jdToYmd(1948321), [1, 1, 1]);
         $this->assertSame($persian->ymdToJd(1201, 1, 31), 2386641);
-        $this->assertSame($persian->jdToYmd(2386641), array(1201, 1, 31));
+        $this->assertSame($persian->jdToYmd(2386641), [1201, 1, 31]);
         $this->assertSame($persian->ymdToJd(1201, 2, 31), 2386672);
-        $this->assertSame($persian->jdToYmd(2386672), array(1201, 2, 31));
+        $this->assertSame($persian->jdToYmd(2386672), [1201, 2, 31]);
         $this->assertSame($persian->ymdToJd(1201, 3, 31), 2386703);
-        $this->assertSame($persian->jdToYmd(2386703), array(1201, 3, 31));
+        $this->assertSame($persian->jdToYmd(2386703), [1201, 3, 31]);
         $this->assertSame($persian->ymdToJd(1201, 4, 31), 2386734);
-        $this->assertSame($persian->jdToYmd(2386734), array(1201, 4, 31));
+        $this->assertSame($persian->jdToYmd(2386734), [1201, 4, 31]);
         $this->assertSame($persian->ymdToJd(1201, 5, 31), 2386765);
-        $this->assertSame($persian->jdToYmd(2386765), array(1201, 5, 31));
+        $this->assertSame($persian->jdToYmd(2386765), [1201, 5, 31]);
         $this->assertSame($persian->ymdToJd(1201, 6, 31), 2386796);
-        $this->assertSame($persian->jdToYmd(2386796), array(1201, 6, 31));
+        $this->assertSame($persian->jdToYmd(2386796), [1201, 6, 31]);
         $this->assertSame($persian->ymdToJd(1201, 7, 30), 2386826);
-        $this->assertSame($persian->jdToYmd(2386826), array(1201, 7, 30));
+        $this->assertSame($persian->jdToYmd(2386826), [1201, 7, 30]);
         $this->assertSame($persian->ymdToJd(1201, 8, 30), 2386856);
-        $this->assertSame($persian->jdToYmd(2386856), array(1201, 8, 30));
+        $this->assertSame($persian->jdToYmd(2386856), [1201, 8, 30]);
         $this->assertSame($persian->ymdToJd(1201, 9, 30), 2386886);
-        $this->assertSame($persian->jdToYmd(2386886), array(1201, 9, 30));
+        $this->assertSame($persian->jdToYmd(2386886), [1201, 9, 30]);
         $this->assertSame($persian->ymdToJd(1201, 10, 30), 2386916);
-        $this->assertSame($persian->jdToYmd(2386916), array(1201, 10, 30));
+        $this->assertSame($persian->jdToYmd(2386916), [1201, 10, 30]);
         $this->assertSame($persian->ymdToJd(1201, 11, 30), 2386946);
-        $this->assertSame($persian->jdToYmd(2386946), array(1201, 11, 30));
+        $this->assertSame($persian->jdToYmd(2386946), [1201, 11, 30]);
         $this->assertSame($persian->ymdToJd(1201, 12, 30), 2386976);
-        $this->assertSame($persian->jdToYmd(2386976), array(1201, 12, 30));
+        $this->assertSame($persian->jdToYmd(2386976), [1201, 12, 30]);
         $this->assertSame($persian->ymdToJd(1202, 1, 31), 2387007);
-        $this->assertSame($persian->jdToYmd(2387007), array(1202, 1, 31));
+        $this->assertSame($persian->jdToYmd(2387007), [1202, 1, 31]);
         $this->assertSame($persian->ymdToJd(1202, 2, 31), 2387038);
-        $this->assertSame($persian->jdToYmd(2387038), array(1202, 2, 31));
+        $this->assertSame($persian->jdToYmd(2387038), [1202, 2, 31]);
         $this->assertSame($persian->ymdToJd(1202, 3, 31), 2387069);
-        $this->assertSame($persian->jdToYmd(2387069), array(1202, 3, 31));
+        $this->assertSame($persian->jdToYmd(2387069), [1202, 3, 31]);
         $this->assertSame($persian->ymdToJd(1202, 4, 31), 2387100);
-        $this->assertSame($persian->jdToYmd(2387100), array(1202, 4, 31));
+        $this->assertSame($persian->jdToYmd(2387100), [1202, 4, 31]);
         $this->assertSame($persian->ymdToJd(1202, 5, 31), 2387131);
-        $this->assertSame($persian->jdToYmd(2387131), array(1202, 5, 31));
+        $this->assertSame($persian->jdToYmd(2387131), [1202, 5, 31]);
         $this->assertSame($persian->ymdToJd(1202, 6, 31), 2387162);
-        $this->assertSame($persian->jdToYmd(2387162), array(1202, 6, 31));
+        $this->assertSame($persian->jdToYmd(2387162), [1202, 6, 31]);
         $this->assertSame($persian->ymdToJd(1202, 7, 30), 2387192);
-        $this->assertSame($persian->jdToYmd(2387192), array(1202, 7, 30));
+        $this->assertSame($persian->jdToYmd(2387192), [1202, 7, 30]);
         $this->assertSame($persian->ymdToJd(1202, 8, 30), 2387222);
-        $this->assertSame($persian->jdToYmd(2387222), array(1202, 8, 30));
+        $this->assertSame($persian->jdToYmd(2387222), [1202, 8, 30]);
         $this->assertSame($persian->ymdToJd(1202, 9, 30), 2387252);
-        $this->assertSame($persian->jdToYmd(2387252), array(1202, 9, 30));
+        $this->assertSame($persian->jdToYmd(2387252), [1202, 9, 30]);
         $this->assertSame($persian->ymdToJd(1202, 10, 30), 2387282);
-        $this->assertSame($persian->jdToYmd(2387282), array(1202, 10, 30));
+        $this->assertSame($persian->jdToYmd(2387282), [1202, 10, 30]);
         $this->assertSame($persian->ymdToJd(1202, 11, 30), 2387312);
-        $this->assertSame($persian->jdToYmd(2387312), array(1202, 11, 30));
+        $this->assertSame($persian->jdToYmd(2387312), [1202, 11, 30]);
         $this->assertSame($persian->ymdToJd(1202, 12, 29), 2387341);
-        $this->assertSame($persian->jdToYmd(2387341), array(1202, 12, 29));
+        $this->assertSame($persian->jdToYmd(2387341), [1202, 12, 29]);
         $this->assertSame($persian->ymdToJd(3294, 12, 31), 3151429);
         $this->assertSame($persian->ymdToJd(3295, 1, 1), 3151429);
     }
@@ -308,12 +308,12 @@ class PersianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testJdToYmdReciprocity()
+    public function testJdToYmdReciprocity(): void
     {
-        $calendar = new PersianCalendar();
+        $calendar = new PersianCalendar;
 
         for ($jd = $calendar->jdStart(); $jd < min(2457755, $calendar->jdEnd()); $jd += 79) {
-            list($y, $m, $d) = $calendar->jdToYmd($jd);
+            [$y, $m, $d] = $calendar->jdToYmd($jd);
             $this->assertSame($jd, $calendar->ymdToJd($y, $m, $d));
         }
     }
@@ -323,12 +323,12 @@ class PersianCalendarTest extends TestCase
      *
      * @covers \Fisharebest\ExtCalendar\PersianCalendar::ymdToJd
      */
-    public function testYmdToJdInvalidMonth()
+    public function testYmdToJdInvalidMonth(): void
     {
         $this->expectExceptionMessage('Month 14 is invalid for this calendar');
         $this->expectException('InvalidArgumentException');
 
-        $calendar = new PersianCalendar();
+        $calendar = new PersianCalendar;
         $calendar->ymdToJd(4, 14, 1);
     }
 
@@ -337,9 +337,9 @@ class PersianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testModFunction()
+    public function testModFunction(): void
     {
-        $calendar = new PersianCalendar();
+        $calendar = new PersianCalendar;
 
         $this->assertSame(0, $calendar->mod(4, 0));
         $this->assertSame(2, $calendar->mod(9, 7));

@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * Test harness for the class GregorianCalendar
+ * Test harness for the class GregorianCalendar.
  *
  * @author    Greg Roach <greg@subaqua.co.uk>
  * @copyright (c) 2014-2021 Greg Roach
@@ -43,13 +43,13 @@ class GregorianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testConstants()
+    public function testConstants(): void
     {
-        $calendar = new GregorianCalendar();
+        $calendar = new GregorianCalendar;
 
         $this->assertSame('@#DGREGORIAN@', $calendar->gedcomCalendarEscape());
         $this->assertSame(1, $calendar->jdStart());
-        $this->assertSame(PHP_INT_MAX, $calendar->jdEnd());
+        $this->assertSame(\PHP_INT_MAX, $calendar->jdEnd());
         $this->assertSame(7, $calendar->daysInWeek());
         $this->assertSame(12, $calendar->monthsInYear());
     }
@@ -61,9 +61,9 @@ class GregorianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testIsLeapYear()
+    public function testIsLeapYear(): void
     {
-        $gregorian = new GregorianCalendar();
+        $gregorian = new GregorianCalendar;
 
         $this->assertSame($gregorian->isLeapYear(-5), true);
         $this->assertSame($gregorian->isLeapYear(-4), false);
@@ -93,12 +93,12 @@ class GregorianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testEasterDaysCoverage()
+    public function testEasterDaysCoverage(): void
     {
-        $gregorian = new GregorianCalendar();
+        $gregorian = new GregorianCalendar;
 
-        foreach (array(2037, 2035, 2030, 1981, 1894, 1875) as $year) {
-            $this->assertSame($gregorian->easterDays($year), easter_days($year, CAL_EASTER_ALWAYS_GREGORIAN));
+        foreach ([2037, 2035, 2030, 1981, 1894, 1875] as $year) {
+            $this->assertSame($gregorian->easterDays($year), easter_days($year, \CAL_EASTER_ALWAYS_GREGORIAN));
         }
     }
 
@@ -109,12 +109,12 @@ class GregorianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testEasterDaysModernTimes()
+    public function testEasterDaysModernTimes(): void
     {
-        $gregorian = new GregorianCalendar();
+        $gregorian = new GregorianCalendar;
 
         for ($year = 1970; $year <= 2037; ++$year) {
-            $this->assertSame($gregorian->easterDays($year), easter_days($year, CAL_EASTER_ALWAYS_GREGORIAN));
+            $this->assertSame($gregorian->easterDays($year), easter_days($year, \CAL_EASTER_ALWAYS_GREGORIAN));
         }
     }
 
@@ -125,13 +125,13 @@ class GregorianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testDaysInMonth()
+    public function testDaysInMonth(): void
     {
-        $gregorian = new GregorianCalendar();
+        $gregorian = new GregorianCalendar;
 
-        foreach (array(-5, -4, -1, 1, 1500, 1600, 1700, 1800, 1900, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2100, 2200) as $year) {
+        foreach ([-5, -4, -1, 1, 1500, 1600, 1700, 1800, 1900, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2100, 2200] as $year) {
             for ($month = 1; $month <= 12; ++$month) {
-                $this->assertSame($gregorian->daysInMonth($year, $month), cal_days_in_month(CAL_GREGORIAN, $month, $year));
+                $this->assertSame($gregorian->daysInMonth($year, $month), cal_days_in_month(\CAL_GREGORIAN, $month, $year));
             }
         }
     }
@@ -144,17 +144,17 @@ class GregorianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testYmdToJdDays()
+    public function testYmdToJdDays(): void
     {
-        $gregorian = new GregorianCalendar();
+        $gregorian = new GregorianCalendar;
 
-        foreach (array(2012, 2014) as $year) {
+        foreach ([2012, 2014] as $year) {
             for ($day = 1; $day <= 28; ++$day) {
-                $julian_day = GregorianToJD(8, $day, $year);
+                $julian_day = gregoriantojd(8, $day, $year);
                 $ymd = $gregorian->jdToYmd($julian_day);
 
                 $this->assertSame($gregorian->ymdToJd($year, 8, $day), $julian_day);
-                $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], JDToGregorian($julian_day));
+                $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], jdtogregorian($julian_day));
             }
         }
     }
@@ -167,17 +167,17 @@ class GregorianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testYmdToJdMonths()
+    public function testYmdToJdMonths(): void
     {
-        $gregorian = new GregorianCalendar();
+        $gregorian = new GregorianCalendar;
 
-        foreach (array(2012, 2014) as $year) {
+        foreach ([2012, 2014] as $year) {
             for ($month = 1; $month <= 12; ++$month) {
-                $julian_day = GregorianToJD($month, 9, $year);
+                $julian_day = gregoriantojd($month, 9, $year);
                 $ymd = $gregorian->jdToYmd($julian_day);
 
                 $this->assertSame($gregorian->ymdToJd($year, $month, 9), $julian_day);
-                $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], JDToGregorian($julian_day));
+                $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], jdtogregorian($julian_day));
             }
         }
     }
@@ -190,16 +190,16 @@ class GregorianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testYmdToJdYears()
+    public function testYmdToJdYears(): void
     {
-        $gregorian = new GregorianCalendar();
+        $gregorian = new GregorianCalendar;
 
         for ($year = 1970; $year <= 2037; ++$year) {
-            $julian_day = GregorianToJD(8, 9, $year);
+            $julian_day = gregoriantojd(8, 9, $year);
             $ymd = $gregorian->jdToYmd($julian_day);
 
             $this->assertSame($gregorian->ymdToJd($year, 8, 9), $julian_day);
-            $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], JDToGregorian($julian_day));
+            $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], jdtogregorian($julian_day));
         }
     }
 
@@ -211,23 +211,23 @@ class GregorianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testYmdToJdYearsBc()
+    public function testYmdToJdYearsBc(): void
     {
-        $gregorian = new GregorianCalendar();
+        $gregorian = new GregorianCalendar;
 
         for ($year = -5; $year <= 5; ++$year) {
             if ($year != 0) {
-                $julian_day = GregorianToJD(1, 1, $year);
+                $julian_day = gregoriantojd(1, 1, $year);
                 $ymd = $gregorian->jdToYmd($julian_day);
 
                 $this->assertSame($gregorian->ymdToJd($year, 1, 1), $julian_day);
-                $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], JDToGregorian($julian_day));
+                $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], jdtogregorian($julian_day));
 
-                $julian_day = GregorianToJD(12, 31, $year);
+                $julian_day = gregoriantojd(12, 31, $year);
                 $ymd = $gregorian->jdToYmd($julian_day);
 
                 $this->assertSame($gregorian->ymdToJd($year, 12, 31), $julian_day);
-                $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], JDToGregorian($julian_day));
+                $this->assertSame($ymd[1] . '/' . $ymd[2] . '/' . $ymd[0], jdtogregorian($julian_day));
             }
         }
     }
@@ -240,12 +240,12 @@ class GregorianCalendarTest extends TestCase
      *
      * @return void
      */
-    public function testJdToYmdReciprocity()
+    public function testJdToYmdReciprocity(): void
     {
-        $calendar = new GregorianCalendar();
+        $calendar = new GregorianCalendar;
 
         for ($jd = $calendar->jdStart(); $jd < min(2457755, $calendar->jdEnd()); $jd += 79) {
-            list($y, $m, $d) = $calendar->jdToYmd($jd);
+            [$y, $m, $d] = $calendar->jdToYmd($jd);
             $this->assertSame($jd, $calendar->ymdToJd($y, $m, $d));
         }
     }
@@ -255,12 +255,12 @@ class GregorianCalendarTest extends TestCase
      *
      * @covers \Fisharebest\ExtCalendar\GregorianCalendar::ymdToJd
      */
-    public function testYmdToJdInvalidMonth()
+    public function testYmdToJdInvalidMonth(): void
     {
         $this->expectExceptionMessage('Month 14 is invalid for this calendar');
         $this->expectException('InvalidArgumentException');
 
-        $calendar = new GregorianCalendar();
+        $calendar = new GregorianCalendar;
         $calendar->ymdToJd(4, 14, 1);
     }
 }

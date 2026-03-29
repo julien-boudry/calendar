@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * If ext/calendar is not installed, then provide the necessary shims.
@@ -21,30 +21,30 @@
 
 use Fisharebest\ExtCalendar\Shim;
 
-if (!defined('CAL_GREGORIAN')) {
+if (!\defined('CAL_GREGORIAN')) {
     Shim::create();
 
-    define('CAL_GREGORIAN', 0);
-    define('CAL_JULIAN', 1);
-    define('CAL_JEWISH', 2);
-    define('CAL_FRENCH', 3);
-    define('CAL_NUM_CALS', 4);
-    define('CAL_DOW_DAYNO', 0);
-    define('CAL_DOW_SHORT', 2);
-    define('CAL_DOW_LONG', 1);
-    define('CAL_MONTH_GREGORIAN_SHORT', 0);
-    define('CAL_MONTH_GREGORIAN_LONG', 1);
-    define('CAL_MONTH_JULIAN_SHORT', 2);
-    define('CAL_MONTH_JULIAN_LONG', 3);
-    define('CAL_MONTH_JEWISH', 4);
-    define('CAL_MONTH_FRENCH', 5);
-    define('CAL_EASTER_DEFAULT', 0);
-    define('CAL_EASTER_ROMAN', 1);
-    define('CAL_EASTER_ALWAYS_GREGORIAN', 2);
-    define('CAL_EASTER_ALWAYS_JULIAN', 3);
-    define('CAL_JEWISH_ADD_ALAFIM_GERESH', 2);
-    define('CAL_JEWISH_ADD_ALAFIM', 4);
-    define('CAL_JEWISH_ADD_GERESHAYIM', 8);
+    \define('CAL_GREGORIAN', 0);
+    \define('CAL_JULIAN', 1);
+    \define('CAL_JEWISH', 2);
+    \define('CAL_FRENCH', 3);
+    \define('CAL_NUM_CALS', 4);
+    \define('CAL_DOW_DAYNO', 0);
+    \define('CAL_DOW_SHORT', 2);
+    \define('CAL_DOW_LONG', 1);
+    \define('CAL_MONTH_GREGORIAN_SHORT', 0);
+    \define('CAL_MONTH_GREGORIAN_LONG', 1);
+    \define('CAL_MONTH_JULIAN_SHORT', 2);
+    \define('CAL_MONTH_JULIAN_LONG', 3);
+    \define('CAL_MONTH_JEWISH', 4);
+    \define('CAL_MONTH_FRENCH', 5);
+    \define('CAL_EASTER_DEFAULT', 0);
+    \define('CAL_EASTER_ROMAN', 1);
+    \define('CAL_EASTER_ALWAYS_GREGORIAN', 2);
+    \define('CAL_EASTER_ALWAYS_JULIAN', 3);
+    \define('CAL_JEWISH_ADD_ALAFIM_GERESH', 2);
+    \define('CAL_JEWISH_ADD_ALAFIM', 4);
+    \define('CAL_JEWISH_ADD_GERESHAYIM', 8);
 
     /**
      * @param int $calendar_id
@@ -100,7 +100,7 @@ if (!defined('CAL_GREGORIAN')) {
      */
     function easter_date($year = null)
     {
-        return Shim::easterDate($year ? $year : (int)date('Y'));
+        return Shim::easterDate($year ?: (int) date('Y'));
     }
 
     /**
@@ -109,9 +109,9 @@ if (!defined('CAL_GREGORIAN')) {
      *
      * @return int
      */
-    function easter_days($year = null, $method = CAL_EASTER_DEFAULT)
+    function easter_days($year = null, $method = \CAL_EASTER_DEFAULT)
     {
-        return Shim::easterDays($year ? $year : (int)date('Y'), $method);
+        return Shim::easterDays($year ?: (int) date('Y'), $method);
     }
 
     /**
@@ -144,7 +144,7 @@ if (!defined('CAL_GREGORIAN')) {
      *
      * @return int|string
      */
-    function JDDayOfWeek($julian_day, $mode = CAL_DOW_DAYNO)
+    function JDDayOfWeek($julian_day, $mode = \CAL_DOW_DAYNO)
     {
         return Shim::jdDayOfWeek($julian_day, $mode);
     }
@@ -243,6 +243,6 @@ if (!defined('CAL_GREGORIAN')) {
      */
     function unixtojd($timestamp = null)
     {
-        return Shim::unixToJd($timestamp ? $timestamp : time());
+        return Shim::unixToJd($timestamp ?: time());
     }
 }
