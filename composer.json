@@ -22,7 +22,8 @@
             "issues": "https://github.com/condorcet-php/php-calendars/issues"
     },
     "require": {
-        "php": ">=8.5"
+        "php": ">=8.5",
+        "php-64bit": "*"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.94",
